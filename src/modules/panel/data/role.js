@@ -10,6 +10,9 @@ class RoleData {
         });
         return role;
     }
+    static async updateRole({token, roleId, name, description, color, authEndpoints}){
+        
+    }
 
 }
 

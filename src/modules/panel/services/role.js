@@ -5,8 +5,9 @@ class RoleService {
         return role;
     }
 
-    static async updateRole(id, data) {
-        // Implementation for updating a role
+    static async updateRole({ token, roleId, name, description, color, authEndpoints }) {
+       const role = await RoleData.updateRole({token, roleId, name, description, color, authEndpoints});
+       return role;
     }
 
     static async deleteRole(id) {
