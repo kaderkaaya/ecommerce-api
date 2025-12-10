@@ -7,4 +7,5 @@ import SchemaHelper from '../../../utils/schema-helper.js';
 router.post('/createUser',
     SchemaHelper.validateSchemaBody(UserSchema.createUser),
     UserController.createUser);
+
 export default router;

@@ -34,6 +34,15 @@ const User = sequelize.define('User', {
         allowNull: false,
         unique: true,
     },
+    verifyPhone: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+    },
+    verifyCode: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    }
 }, {
     timestamps: true,
 });
