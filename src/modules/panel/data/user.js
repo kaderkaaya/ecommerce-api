@@ -14,6 +14,9 @@ class UserData {
       verifyPhone: true,
     });
     return user;
+  };
+  static async findByPhoneNumber({ phoneNumber }) {
+    return UserModel.findOne({ where: { phoneNumber } });
   }
 
 }

@@ -7,5 +7,9 @@ export default {
         surname: Joi.string(),
         role: Joi.number(),
         phoneNumber: Joi.string(),
+    }),
+    login: Joi.object({
+        phoneNumber: Joi.string().required(),
+        password: Joi.string().required(),
     })
 }

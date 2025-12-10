@@ -33,4 +33,16 @@ export default {
         statusCode: 107,
         message: 'Note Error'
     },
+    PHONE_ALREADY_EXISTS: {
+        statusCode: 108,
+        message: 'Phone number already in use'
+    },
+    USER_NOT_FOUND: {
+        statusCode: 109,
+        message: 'User not found'
+    },
+    INVALID_PASSWORD: {
+        statusCode: 110,
+        message: 'Invalid password'
+    }
 }
