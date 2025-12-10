@@ -3,4 +3,5 @@ export default {
     USER_LOGIN_SUCCESS: 'User logged in successfully',
     USER_FETCH_SUCCESS: 'User fetched successfully',
     INVALID_TOKEN: 'Invalid token',
+    ROLE_CREATED_SUCCESS: 'Role created successfully',
 }

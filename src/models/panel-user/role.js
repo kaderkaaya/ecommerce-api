@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../../config/config.js";
+import RoleStatus from "../../modules/panel/constants/const.js";
 
 const Role = sequelize.define('Role', {
     id: {
@@ -16,9 +17,14 @@ const Role = sequelize.define('Role', {
         allowNull: true,
     },
     authEndpoints: {
-        type: DataTypes.ARRAY(DataTypes.STRING),
-        allowNull: false
-    }
+        type: DataTypes.JSON,
+        allowNull: false,
+        defaultValue: [],
+    },
+    roleStatus: {
+        type: DataTypes.INTEGER,
+        defaultValue: RoleStatus.ROLE_STATUS.ACTIVE,
+    },
 }, {
     timestamps: true,
 });
