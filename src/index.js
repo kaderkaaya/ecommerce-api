@@ -1,18 +1,19 @@
 import dotenv from "dotenv";
 import path from "path";
 dotenv.config({ path: path.resolve('../.env') });
-import initializeDatabase from "./config/config.js";
+import sequelize from "./config/config.js";
 import express from "express";
 import routers from './routes.js';
 
 const PORT = process.env.PORT;
 const app = express();
 app.use(express.json());
-app.use(routers);
+routers(app);
 const startServer = async () => {
     try {
-       console.log("Starting server...");
-  return await initializeDatabase(); 
+        console.log("Starting server...");
+        await sequelize.authenticate();
+        await sequelize.sync({ alter: true });
     } catch (error) {
         console.error("Failed to start server:", error);
     }
