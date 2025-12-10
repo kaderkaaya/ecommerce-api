@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../../config/config.js";
-
+import UserStatus from "../../modules/panel/constants/const.js";
 const User = sequelize.define('User', {
     id: {
         type: DataTypes.INTEGER,
@@ -42,7 +42,12 @@ const User = sequelize.define('User', {
     verifyCode: {
         type: DataTypes.STRING,
         allowNull: true,
-    }
+    },
+    userStatus: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: UserStatus.USER_STATUS.ACTIVE,
+    },
 }, {
     timestamps: true,
 });

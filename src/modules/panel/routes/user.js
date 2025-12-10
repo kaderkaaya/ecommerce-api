@@ -12,5 +12,13 @@ router.post('/login',
     SchemaHelper.validateSchemaBody(UserSchema.login),
     UserController.login);
 
+router.get('/get-user',
+    SchemaHelper.validateSchemaQuery(UserSchema.getUser),
+    UserController.getUser);
+
+router.get('/get-users',
+    SchemaHelper.validateSchemaQuery(UserSchema.getUsers),
+    UserController.getUsers);
+
 
 export default router;

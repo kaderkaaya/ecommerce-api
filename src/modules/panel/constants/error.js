@@ -44,5 +44,13 @@ export default {
     INVALID_PASSWORD: {
         statusCode: 110,
         message: 'Invalid password'
+    },
+    INVALID_TOKEN: {
+        statusCode: 111,
+        message: 'Invalid token'
+    },
+    UNAUTHORIZED: {
+        statusCode: 112,
+        message: 'Unauthorized access'
     }
 }

@@ -44,5 +44,29 @@ class UserService {
          refreshToken
       };
    }
+   static async getUser({ token }) {
+      const decoded = await TokenHelper.verifyToken({ token });
+      if (!decoded) {
+         throw new ErrorHelper(Errors.INVALID_TOKEN);
+      }
+      const user = await UserData.findById({ id: decoded.id });
+      if (!user) {
+         throw new ErrorHelper(Errors.USER_NOT_FOUND);
+      }
+      return user;
+   }
+
+   static async getUsers({ token }) {
+      const decoded = await TokenHelper.verifyToken({ token });
+      if (!decoded) {
+         throw new ErrorHelper(Errors.INVALID_TOKEN);
+      }
+      if (decoded.role !== 1) {
+         throw new ErrorHelper(Errors.UNAUTHORIZED);
+      }
+      const users = await UserData.getAllUsers();
+      return users;
+   }
+
 }
 export default UserService;

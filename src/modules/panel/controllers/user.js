@@ -12,17 +12,37 @@ class UserController {
       return ErrorHelper.sendError({ res, statusCode: 500, message: error.message });
     }
   }
+
   static async login(req, res) {
     try {
       const { phoneNumber, password } = req.body;
       const user = await UserService.login({ phoneNumber, password });
       return ErrorHelper.success({ res, statusCode: 200, message: Messages.USER_LOGIN_SUCCESS, data: { user } });
     } catch (error) {
-      console.log('error', error);
-
       return ErrorHelper.sendError({ res, statusCode: 500, message: error.message });
     }
   }
+
+  static async getUser(req, res) {
+    try {
+      const { token } = req.query;
+      const user = await UserService.getUser({ token });
+      return ErrorHelper.success({ res, statusCode: 200, message: Messages.USER_FETCH_SUCCESS, data: { user } });
+    } catch (error) {
+      return ErrorHelper.sendError({ res, statusCode: 500, message: error.message });
+    }
+  }
+
+  static async getUsers(req, res) {
+    try {
+      const { token } = req.query;
+      const users = await UserService.getUsers({ token });
+      return ErrorHelper.success({ res, statusCode: 200, message: Messages.USER_FETCH_SUCCESS, data: { users } });
+    } catch (error) {
+      return ErrorHelper.sendError({ res, statusCode: 500, message: error.message });
+    }
+  }
+
 }
 
 export default UserController;
