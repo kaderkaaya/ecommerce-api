@@ -35,7 +35,7 @@ class UserService {
       }
       const veriftyPasssword = await HashHelper.verifyPassword({ password, hashedPassword: user.password });
       if (!veriftyPasssword) {
-         throw new ErrorHelper(Errors.INVALID_PASSWORD);
+         throw new ErrorHelper(Errors.INVALID_PASSWORD.message, Errors.INVALID_PASSWORD.statusCode);
       }
       const userToken = await TokenData.findByUserId({ userId: user.id });
       if (userToken && userToken.expiresAt > new Date()) {
@@ -69,9 +69,9 @@ class UserService {
       return user;
    }
 
-   static async getUsers({ token }) {
+   static async getUsers({ token, page, limit }) {
       await this.decodeUser({ token });
-      const users = await UserData.getAllUsers();
+      const users = await UserData.getAllUsers({ page, limit });
       return users;
    }
 
@@ -87,6 +87,23 @@ class UserService {
       if (!user) {
          throw new ErrorHelper(Errors.USER_NOT_FOUND);
       }
+      return user;
+   }
+
+   static async updatePassword({ token, oldPassword, newPassword }) {
+      const uss = await this.decodeUser({ token });
+      const veriftyPasssword = HashHelper.verifyPassword({ password: oldPassword, hashedPassword: uss.password });
+      if (!veriftyPasssword) {
+         throw new ErrorHelper(Errors.USER_NOT_FOUND.message,Errors.USER_NOT_FOUND.statusCode);
+      }
+      const hashedPassword = HashHelper.hashPassword({ password: newPassword })
+      const user = await UserData.updatePassword({ userId: uss.id, password: hashedPassword });
+      return user;
+   }
+
+   static async deleteUser({ token, userId }) {
+      await this.decodeUser({ token });
+      const user = await UserData.deleteUser({ userId });
       return user;
    }
 }

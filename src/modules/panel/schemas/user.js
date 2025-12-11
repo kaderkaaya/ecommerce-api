@@ -44,6 +44,7 @@ export default {
     }),
 
     deleteUser: Joi.object({
-        token: Joi.string().required(),
+        token: Joi.string().required(),//for role based access control
+        userId: Joi.number().required(),//The id of the user to be deleted
     }),
 }

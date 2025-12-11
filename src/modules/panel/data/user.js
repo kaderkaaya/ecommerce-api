@@ -24,9 +24,16 @@ class UserData {
     return UserModel.findOne({ where: { id } });
   }
 
-  static async getAllUsers() {
-    return UserModel.findAll({ where: { userStatus: UserStatus.USER_STATUS.ACTIVE } });
+  static async getAllUsers({ page, limit }) {
+    const skip = Number((page - 1) * limit);
+    const numLimint = Number(limit);
+    return UserModel.findAll({
+      where: { userStatus: UserStatus.USER_STATUS.ACTIVE },
+      skip,
+      limit: numLimint
+    });
   }
+
   static async updateUser({ userId, name, surname, email, phoneNumber }) {
     const updateData = {};
     if (name !== undefined) updateData.name = name;
@@ -36,6 +43,24 @@ class UserData {
     await UserModel.update(
       updateData,
       { where: { id: userId } });
+    const user = await UserModel.findOne({ where: { id: userId } });
+    return user;
+  }
+
+  static async updatePassword({ userId, password }) {
+    await UserModel.update(
+      password,
+      { where: { id: userId } }
+    );
+    const user = await UserModel.findOne({ where: { id: userId } });
+    return user;
+  }
+
+  static async deleteUser({ userId }) {
+    await UserModel.update(
+      { userStatus: UserStatus.USER_STATUS.INACTIVE },
+      { where: { id: userId } }
+    );
     const user = await UserModel.findOne({ where: { id: userId } });
     return user;
   }

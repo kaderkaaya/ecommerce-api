@@ -8,4 +8,6 @@ export default {
     ROLES_RETRIEVED_SUCCESS: 'Roles retrieved successfully',
     ROLE_DELETED_SUCCESS: 'Role deleted successfully',
     USER_UPDATE_SUCCESS: 'User updated successfully',
+    USER_PASSWORD_UPDATE_SUCCESS: 'User password updated successfully',
+    USER_DELETED_SUCCESS: 'User deleted successfully',
 }

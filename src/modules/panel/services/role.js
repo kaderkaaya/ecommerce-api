@@ -17,7 +17,7 @@ class RoleService {
         return role;
     }
 
-    static async getRoles({ token, page, limit }) {
+    static async getRoles({ page, limit }) {
         const roles = await RoleData.getRoles({ page, limit });
         return roles;
     }

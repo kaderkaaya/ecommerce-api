@@ -10,7 +10,12 @@ const authenticate = (req, res, next) => {
         req.token = decoded;
         next();
     } catch (e) {
-        return ResponseHandler.sendError(res, Errors.TOKEN_ERROR.message, Errors.TOKEN_ERROR.statusCode);
+    return ResponseHandler.sendError({
+    res,
+    message: Errors.TOKEN_ERROR.message,
+    statusCode: Errors.TOKEN_ERROR.statusCode
+});
+
     }
 };
 

@@ -27,19 +27,23 @@ class RoleData {
     }
 
     static async deleteRole({ roleId }) {
-        await RoleModel.update({
-            where: { id: roleId }
-        }
-            , {
-                roleStatus: RoleStatus.ROLE_STATUS.INACTIVE
-            });
+        await RoleModel.update(
+            { roleStatus: RoleStatus.ROLE_STATUS.INACTIVE },
+            { where: { id: roleId } });
         const role = await RoleModel.findOne({ where: { id: roleId } });
         return role;
     }
 
     static async getRoles({ page, limit }) {
-        const skip = (page - 1) * limit;
-        const roles = await RoleModel.findAll({ where: { roleStatus: RoleStatus.ROLE_STATUS.ACTIVE } })
+        const skip =Number((page - 1) * limit);
+        console.log('skip',skip);
+        console.log('limit',limit);
+        const numLimint = Number(limit);
+        const roles = await RoleModel.findAll({
+            where: { roleStatus: RoleStatus.ROLE_STATUS.ACTIVE },
+            skip,
+            limit:numLimint
+        })
         return roles;
 
     }

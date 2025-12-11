@@ -29,10 +29,6 @@ export default {
         statusCode: 606,
         message: 'Token Error'
     },
-    NOTE_ERROR: {
-        statusCode: 607,
-        message: 'Note Error'
-    },
     PHONE_ALREADY_EXISTS: {
         statusCode: 614,
         message: 'Phone number already in use'
