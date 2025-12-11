@@ -27,6 +27,18 @@ class UserData {
   static async getAllUsers() {
     return UserModel.findAll({ where: { userStatus: UserStatus.USER_STATUS.ACTIVE } });
   }
+  static async updateUser({ userId, name, surname, email, phoneNumber }) {
+    const updateData = {};
+    if (name !== undefined) updateData.name = name;
+    if (surname !== undefined) updateData.surname = surname;
+    if (email !== undefined) updateData.email = email;
+    if (phoneNumber !== undefined) updateData.phoneNumber = phoneNumber;
+    await UserModel.update(
+      updateData,
+      { where: { id: userId } });
+    const user = await UserModel.findOne({ where: { id: userId } });
+    return user;
+  }
 
 }
 export default UserData;

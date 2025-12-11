@@ -35,7 +35,6 @@ export default {
         surname: Joi.string(),
         email: Joi.string().email(),
         phoneNumber: Joi.string(),
-        role: Joi.number(),
     }),
 
     updatePassword: Joi.object({

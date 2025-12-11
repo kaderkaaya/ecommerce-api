@@ -27,6 +27,7 @@ class UserService {
       //burda logic eklenebilir sms vs
       return UserData.createUser({ name, surname, email, password: hashedPassword, phoneNumber, role, verifyCode: code });
    }
+
    static async login({ phoneNumber, password }) {
       const user = await UserData.findByPhoneNumber({ phoneNumber });
       if (!user) {
@@ -55,6 +56,7 @@ class UserService {
          refreshToken
       };
    }
+
    static async getUser({ token }) {
       const decoded = await TokenHelper.verifyToken({ token });
       if (!decoded) {
@@ -68,13 +70,24 @@ class UserService {
    }
 
    static async getUsers({ token }) {
-      const decoded = await TokenHelper.verifyToken({ token });
-      if (!decoded) {
-         throw new ErrorHelper(Errors.INVALID_TOKEN);
-      }
+      await this.decodeUser({ token });
       const users = await UserData.getAllUsers();
       return users;
    }
 
+   static async updateUser({ token, name, surname, email, phoneNumber }) {
+      const uss = await this.decodeUser({ token });
+      const user = await UserData.updateUser({ userId: uss.id, name, surname, email, phoneNumber });
+      return user;
+   }
+
+   static async decodeUser({ token }) {
+      const decoded = await TokenHelper.verifyToken({ token });
+      const user = await UserData.findById({ id: decoded.id });
+      if (!user) {
+         throw new ErrorHelper(Errors.USER_NOT_FOUND);
+      }
+      return user;
+   }
 }
 export default UserService;

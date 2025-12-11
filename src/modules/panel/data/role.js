@@ -12,24 +12,28 @@ class RoleData {
         return role;
     }
 
-    static async updateRole({ token, roleId, name, description, color, authEndpoints }) {
+    static async updateRole({ roleId, name, description, color, authEndpoints }) {
         const updateData = {};
         if (name !== undefined) updateData.name = name;
         if (description !== undefined) updateData.description = description;
         if (color !== undefined) updateData.color = color;
         if (authEndpoints !== undefined) updateData.authEndpoints = authEndpoints;
 
-        const role = await RoleModel.findByIdAndUpdate(roleId, updateData, { new: true });
+        await RoleModel.update(
+            updateData,
+            { where: { id: roleId } });
+        const role = await RoleModel.findOne({ where: { id: roleId } });
         return role;
-
     }
 
-    static async deleteRole({ token, roleId }) {
-        const role = await RoleModel.findByIdAndUpdate({
-            id: roleId
-        }, {
-            roleStatus: RoleStatus.ROLE_STATUS.INACTIVE
-        });
+    static async deleteRole({ roleId }) {
+        await RoleModel.update({
+            where: { id: roleId }
+        }
+            , {
+                roleStatus: RoleStatus.ROLE_STATUS.INACTIVE
+            });
+        const role = await RoleModel.findOne({ where: { id: roleId } });
         return role;
     }
 

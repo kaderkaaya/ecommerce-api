@@ -43,6 +43,17 @@ class UserController {
     }
   }
 
+  static async updateUser(req, res) {
+    try {
+      const { token, name, surname, email, phoneNumber } = req.body;
+      const user = await UserService.updateUser({ token, name, surname, email, phoneNumber });
+      return ResponseHelper.success({ res, statusCode: 200, message: Messages.USER_UPDATE_SUCCESS, data: { user } });
+    } catch (error) {
+      console.log('eroor', error);
+
+      return ResponseHelper.sendError({ res, statusCode: error.statusCode || 500, message: error.message });
+    }
+  }
 }
 
 export default UserController;
