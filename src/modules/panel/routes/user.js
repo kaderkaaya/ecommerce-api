@@ -30,5 +30,27 @@ router.get('/get-users',
     SchemaHelper.validateSchemaQuery(UserSchema.getUsers),
     UserController.getUsers);
 
+router.post('/forgot-password',
+    authenticate,
+    permissionMiddleware({ endpointName: 'forgot-password' }),
+    SchemaHelper.validateSchemaBody(UserSchema.forgotPassword),
+    UserController.forgotPassword);
 
+router.post('/update-user',
+    authenticate,
+    permissionMiddleware({ endpointName: 'update-user' }),
+    SchemaHelper.validateSchemaBody(UserSchema.updateUser),
+    UserController.updateUser);
+
+router.post('/update-password',
+    authenticate,
+    permissionMiddleware({ endpointName: 'update-password' }),
+    SchemaHelper.validateSchemaBody(UserSchema.updatePassword),
+    UserController.updatePassword);
+
+router.post('/delete-user',
+    authenticate,
+    permissionMiddleware({ endpointName: 'delete-user' }),
+    SchemaHelper.validateSchemaBody(UserSchema.deleteUser),
+    UserController.deleteUser);
 export default router;

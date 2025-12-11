@@ -18,9 +18,33 @@ export default {
     getUser: Joi.object({
         token: Joi.string().required(),
     }),
+
     getUsers: Joi.object({
         token: Joi.string().required(),
-        page: Joi.number().min(1).default(1),
-        limit: Joi.number().min(1).max(100).default(10),
+        page: Joi.number().optional(),
+        limit: Joi.number().optional()
+    }),
+
+    forgotPassword: Joi.object({
+        email: Joi.string().email().required(),
+    }),
+
+    updateUser: Joi.object({
+        token: Joi.string().required(),
+        name: Joi.string(),
+        surname: Joi.string(),
+        email: Joi.string().email(),
+        phoneNumber: Joi.string(),
+        role: Joi.number(),
+    }),
+
+    updatePassword: Joi.object({
+        token: Joi.string().required(),
+        oldPassword: Joi.string().min(6).required(),
+        newPassword: Joi.string().min(6).required(),
+    }),
+
+    deleteUser: Joi.object({
+        token: Joi.string().required(),
     }),
 }

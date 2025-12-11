@@ -8,6 +8,16 @@ import TokenData from '../data/token.js';
 
 class UserService {
    static async createUser({ name, surname, email, password, phoneNumber, role }) {
+      const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+      const isValidPassword = passwordRegex.test(password);
+      if (!isValidPassword) {
+         throw new ErrorHelper(Errors.PASSWORD_ERROR.message, Errors.PASSWORD_ERROR.statusCode);
+      }
+      const mailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const isValidEmail = mailRegex.test(email);
+      if (!isValidEmail) {
+         throw new ErrorHelper(Errors.EMAIL_ERROR.message, Errors.EMAIL_ERROR.statusCode);
+      }
       const user = await UserData.findByPhoneNumber({ phoneNumber });
       if (user) {
          throw new ErrorHelper(Errors.EXISTING_USER.message, Errors.EXISTING_USER.statusCode);
