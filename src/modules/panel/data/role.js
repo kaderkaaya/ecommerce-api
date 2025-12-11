@@ -36,8 +36,6 @@ class RoleData {
 
     static async getRoles({ page, limit }) {
         const skip =Number((page - 1) * limit);
-        console.log('skip',skip);
-        console.log('limit',limit);
         const numLimint = Number(limit);
         const roles = await RoleModel.findAll({
             where: { roleStatus: RoleStatus.ROLE_STATUS.ACTIVE },
