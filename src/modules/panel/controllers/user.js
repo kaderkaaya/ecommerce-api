@@ -1,5 +1,5 @@
 import UserService from '../services/user.js';
-import ErrorHelper from '../../../utils/response-handler.js';
+import ResponseHelper from '../../../utils/response-handler.js';
 import Messages from '../constants/messages.js';
 
 class UserController {
@@ -7,9 +7,9 @@ class UserController {
     try {
       const { name, surname, email, password, phoneNumber, role } = req.body;
       const user = await UserService.createUser({ name, surname, email, password, phoneNumber, role });
-      return ErrorHelper.success({ res, statusCode: 201, message: Messages.USER_CREATED_SUCCESS, data: { user } });
+      return ResponseHelper.success({ res, statusCode: 201, message: Messages.USER_CREATED_SUCCESS, data: { user } });
     } catch (error) {
-      return ErrorHelper.sendError({ res, statusCode: 500, message: error.message });
+      return ResponseHelper.sendError({ res, statusCode: error.statusCode || 500, message: error.message });
     }
   }
 
@@ -17,9 +17,9 @@ class UserController {
     try {
       const { phoneNumber, password } = req.body;
       const user = await UserService.login({ phoneNumber, password });
-      return ErrorHelper.success({ res, statusCode: 200, message: Messages.USER_LOGIN_SUCCESS, data: { user } });
+      return ResponseHelper.success({ res, statusCode: 200, message: Messages.USER_LOGIN_SUCCESS, data: { user } });
     } catch (error) {
-      return ErrorHelper.sendError({ res, statusCode: 500, message: error.message });
+      return ResponseHelper.sendError({ res, statusCode: error.statusCode || 500, message: error.message });
     }
   }
 
@@ -27,9 +27,9 @@ class UserController {
     try {
       const { token } = req.query;
       const user = await UserService.getUser({ token });
-      return ErrorHelper.success({ res, statusCode: 200, message: Messages.USER_FETCH_SUCCESS, data: { user } });
+      return ResponseHelper.success({ res, statusCode: 200, message: Messages.USER_FETCH_SUCCESS, data: { user } });
     } catch (error) {
-      return ErrorHelper.sendError({ res, statusCode: 500, message: error.message });
+      return ResponseHelper.sendError({ res, statusCode: error.statusCode || 500, message: error.message });
     }
   }
 
@@ -37,9 +37,9 @@ class UserController {
     try {
       const { token } = req.query;
       const users = await UserService.getUsers({ token });
-      return ErrorHelper.success({ res, statusCode: 200, message: Messages.USER_FETCH_SUCCESS, data: { users } });
+      return ResponseHelper.success({ res, statusCode: 200, message: Messages.USER_FETCH_SUCCESS, data: { users } });
     } catch (error) {
-      return ErrorHelper.sendError({ res, statusCode: 500, message: error.message });
+      return ResponseHelper.sendError({ res, statusCode: error.statusCode || 500, message: error.message });
     }
   }
 

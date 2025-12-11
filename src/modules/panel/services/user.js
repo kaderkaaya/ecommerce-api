@@ -5,11 +5,12 @@ import ErrorHelper from '../../../utils/error-helper.js';
 import Errors from '../constants/error.js';
 import TokenHelper from '../../../utils/token-helper.js';
 import TokenData from '../data/token.js';
+
 class UserService {
    static async createUser({ name, surname, email, password, phoneNumber, role }) {
       const user = await UserData.findByPhoneNumber({ phoneNumber });
       if (user) {
-         throw new ErrorHelper(Errors.EXISTING_USER)
+         throw new ErrorHelper(Errors.EXISTING_USER.message, Errors.EXISTING_USER.statusCode);
       }
       const hashedPassword = await HashHelper.hashPassword({ password });
       const code = generateCode();
