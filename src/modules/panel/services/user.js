@@ -62,9 +62,6 @@ class UserService {
       if (!decoded) {
          throw new ErrorHelper(Errors.INVALID_TOKEN);
       }
-      if (decoded.role !== 1) {
-         throw new ErrorHelper(Errors.UNAUTHORIZED);
-      }
       const users = await UserData.getAllUsers();
       return users;
    }

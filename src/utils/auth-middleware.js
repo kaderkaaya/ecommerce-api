@@ -3,7 +3,7 @@ import ResponseHandler from "./response-handler.js";
 import Errors from '../../src/modules/panel/constants/error.js';
 const JWT_SECRET = process.env.JWT_SECRET;
 
-export default authenticate = (req, res, next) => {
+const authenticate = (req, res, next) => {
     const token = req.headers?.authorization?.split(" ")[1];
     try {
         const decoded = jwt.verify(token, JWT_SECRET);
@@ -14,3 +14,5 @@ export default authenticate = (req, res, next) => {
     }
 };
 
+
+export default authenticate;
