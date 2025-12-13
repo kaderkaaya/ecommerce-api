@@ -2,18 +2,18 @@ import RoleData from '../data/role.js';
 import permissionMiddleware from '../../../utils/permission-middleware.js';
 import TokenHelper from '../../../utils/token-helper.js';
 class RoleService {
-    static async createRole({ token, name, description, color, authEndpoints }) {
-        const role = await RoleData.createRole({ token, name, description, color, authEndpoints });
+    static async createRole({ userId, name, description, color, authEndpoints }) {
+        const role = await RoleData.createRole({ userId, name, description, color, authEndpoints });
         return role;
     }
 
-    static async updateRole({ token, roleId, name, description, color, authEndpoints }) {
-        const role = await RoleData.updateRole({ token, roleId, name, description, color, authEndpoints });
+    static async updateRole({ userId, roleId, name, description, color, authEndpoints }) {
+        const role = await RoleData.updateRole({ userId, roleId, name, description, color, authEndpoints });
         return role;
     }
 
-    static async deleteRole({ token, roleId }) {
-        const role = await RoleData.deleteRole({ token, roleId });
+    static async deleteRole({ userId, roleId }) {
+        const role = await RoleData.deleteRole({ userId, roleId });
         return role;
     }
 

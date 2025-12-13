@@ -2,7 +2,7 @@ import RoleModel from '../../../models/panel-user/role.js';
 import RoleStatus from '../constants/const.js';
 class RoleData {
 
-    static async createRole({ token, name, description, color, authEndpoints }) {
+    static async createRole({ userId, name, description, color, authEndpoints }) {
         const role = await RoleModel.create({
             name,
             description,
@@ -35,12 +35,12 @@ class RoleData {
     }
 
     static async getRoles({ page, limit }) {
-        const skip =Number((page - 1) * limit);
+        const skip = Number((page - 1) * limit);
         const numLimint = Number(limit);
         const roles = await RoleModel.findAll({
             where: { roleStatus: RoleStatus.ROLE_STATUS.ACTIVE },
             skip,
-            limit:numLimint
+            limit: numLimint
         })
         return roles;
 

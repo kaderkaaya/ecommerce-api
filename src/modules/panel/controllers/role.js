@@ -5,8 +5,9 @@ import Messages from '../constants/messages.js';
 class RoleController {
     static async createRole(req, res) {
         try {
-            const { token, name, description, color, authEndpoints } = req.body;
-            const role = await RoleService.createRole({ token, name, description, color, authEndpoints });
+            const userId = req.user.id;
+            const { name, description, color, authEndpoints } = req.body;
+            const role = await RoleService.createRole({ userId, name, description, color, authEndpoints });
             return ResponseHelper.success({ res, statusCode: 201, message: Messages.ROLE_CREATED_SUCCESS, data: { role } });
         } catch (error) {
             return ResponseHelper.sendError({ res, statusCode: error.statusCode || 500, message: error.message });
@@ -16,8 +17,9 @@ class RoleController {
 
     static async updateRole(req, res) {
         try {
-            const { token, roleId, name, description, color, authEndpoints } = req.body;
-            const role = await RoleService.updateRole({ token, roleId, name, description, color, authEndpoints });
+            const userId = req.user.id;
+            const { roleId, name, description, color, authEndpoints } = req.body;
+            const role = await RoleService.updateRole({ userId, roleId, name, description, color, authEndpoints });
             return ResponseHelper.success({ res, statusCode: 201, message: Messages.ROLE_UPDATED_SUCCESS, data: { role } });
         } catch (error) {
             return ResponseHelper.sendError({ res, statusCode: error.statusCode || 500, message: error.message });
@@ -27,8 +29,9 @@ class RoleController {
 
     static async deleteRole(req, res) {
         try {
-            const { token, roleId } = req.body;
-            const role = await RoleService.deleteRole({ token, roleId });
+            const userId = req.user.id;
+            const { roleId } = req.body;
+            const role = await RoleService.deleteRole({ userId, roleId });
             return ResponseHelper.success({ res, statusCode: 200, message: Messages.ROLE_DELETED_SUCCESS, data: { role } });
         } catch (error) {
             return ResponseHelper.sendError({ res, statusCode: error.statusCode || 500, message: error.message });
@@ -37,8 +40,9 @@ class RoleController {
 
     static async getRoles(req, res) {
         try {
-            const { token, page, limit } = req.query;
-            const roles = await RoleService.getRoles({ token, page, limit });
+            const userId = req.user.id;
+            const { page, limit } = req.query;
+            const roles = await RoleService.getRoles({ userId, page, limit });
             return ResponseHelper.success({ res, statusCode: 200, message: Messages.ROLES_RETRIEVED_SUCCESS, data: { roles } });
         } catch (error) {
             return ResponseHelper.sendError({ res, statusCode: error.statusCode || 500, message: error.message });
