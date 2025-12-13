@@ -36,8 +36,6 @@ class UserData {
   }
 
   static async updateUser({ userId, name, surname, email, phoneNumber }) {
-    console.log('userid', userId);
-
     const updateData = {};
     if (name !== undefined) updateData.name = name;
     if (surname !== undefined) updateData.surname = surname;
