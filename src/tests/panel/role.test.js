@@ -60,9 +60,10 @@ describe('update-role', () => {
 });
 
 describe('delete-role', () => {
-    test('Should update role successfully', async () => {
+    test('Should delete role successfully', async () => {
         const mockRole = {
             roleId: 1,
+            roleStatus:0
         };
 
         RoleModel.update.mockResolvedValue([1]);
