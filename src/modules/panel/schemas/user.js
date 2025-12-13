@@ -15,12 +15,9 @@ export default {
         password: Joi.string().required(),
     }),
 
-    getUser: Joi.object({
-        token: Joi.string().required(),
-    }),
+    getUser: Joi.object({}),
 
     getUsers: Joi.object({
-        token: Joi.string().required(),
         page: Joi.number().optional(),
         limit: Joi.number().optional()
     }),
@@ -30,7 +27,6 @@ export default {
     }),
 
     updateUser: Joi.object({
-        token: Joi.string().required(),
         name: Joi.string(),
         surname: Joi.string(),
         email: Joi.string().email(),
@@ -38,13 +34,11 @@ export default {
     }),
 
     updatePassword: Joi.object({
-        token: Joi.string().required(),
         oldPassword: Joi.string().min(6).required(),
         newPassword: Joi.string().min(6).required(),
     }),
 
     deleteUser: Joi.object({
-        token: Joi.string().required(),//for role based access control
-        userId: Joi.number().required(),//The id of the user to be deleted
+        userid: Joi.number().required(),//The id of the user to be deleted
     }),
 }

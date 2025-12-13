@@ -14,7 +14,7 @@ jest.unstable_mockModule('../../models/panel-user/user.js', () => ({
         destroy: jest.fn()
     }
 }));
-//burda ilk olarak confic dosyamızı import ediyoruz çünkü
+//burda ilk olarak config dosyamızı import ediyoruz çünkü
 // mockladığımızda dbye mocklamaya çalışıyoruz ve hata alıyoruz.
 //burda db ile test etmememiz gerek 
 //daha sonra servislerimizi ve modelimi mockluyoruz
@@ -31,8 +31,32 @@ const { default: PanelUserModel } = await import(
     '../../models/panel-user/user.js'
 );
 
-describe('createUser', () => {
+describe('create-user', () => {
     test('Should create user successfully', async () => {
+        const mockUser = {
+            id: 1,
+            name: 'kado',
+            surname: 'kaya',
+            email: 'test@test.com',
+            phoneNumber: '533087777',
+            role: 1,
+            password: '1234',
+            userStatus: 1,
+            verifyCode: 'ADCD',
+            verifyPhone: true
+        };
+
+        PanelUserModel.create.mockResolvedValue(mockUser);
+
+        const result = await PanelUserService.createUser(mockUser);
+
+        expect(result).toEqual(mockUser);
+        expect(PanelUserModel.create).toHaveBeenCalledTimes(1);
+    });
+});
+
+describe('update-user', () => {
+    test('Should update user successfully', async () => {
         const mockUser = {
             id: 1,
             name: 'kado',

@@ -19,16 +19,14 @@ class UserController {
       const user = await UserService.login({ phoneNumber, password });
       return ResponseHelper.success({ res, statusCode: 200, message: Messages.USER_LOGIN_SUCCESS, data: { user } });
     } catch (error) {
-      console.log('error', error);
-
       return ResponseHelper.sendError({ res, statusCode: error.statusCode || 500, message: error.message });
     }
   }
 
   static async getUser(req, res) {
     try {
-      const { token } = req.query;
-      const user = await UserService.getUser({ token });
+      const userId = req.user.id;
+      const user = await UserService.getUser({ userId });
       return ResponseHelper.success({ res, statusCode: 200, message: Messages.USER_FETCH_SUCCESS, data: { user } });
     } catch (error) {
       return ResponseHelper.sendError({ res, statusCode: error.statusCode || 500, message: error.message });
@@ -37,8 +35,9 @@ class UserController {
 
   static async getUsers(req, res) {
     try {
-      const { token, page, limit } = req.query;
-      const users = await UserService.getUsers({ token, page, limit });
+      const userId = req.user.id;
+      const { page, limit } = req.query;
+      const users = await UserService.getUsers({ userId, page, limit });
       return ResponseHelper.success({ res, statusCode: 200, message: Messages.USER_FETCH_SUCCESS, data: { users } });
     } catch (error) {
       return ResponseHelper.sendError({ res, statusCode: error.statusCode || 500, message: error.message });
@@ -47,8 +46,9 @@ class UserController {
 
   static async updateUser(req, res) {
     try {
-      const { token, name, surname, email, phoneNumber } = req.body;
-      const user = await UserService.updateUser({ token, name, surname, email, phoneNumber });
+      const { name, surname, email, phoneNumber } = req.body;
+      const userId = req.user.id;
+      const user = await UserService.updateUser({ userId, name, surname, email, phoneNumber });
       return ResponseHelper.success({ res, statusCode: 200, message: Messages.USER_UPDATE_SUCCESS, data: { user } });
     } catch (error) {
       return ResponseHelper.sendError({ res, statusCode: error.statusCode || 500, message: error.message });
@@ -57,8 +57,9 @@ class UserController {
 
   static async updatePassword(req, res) {
     try {
-      const { token, oldPassword, newPassword } = req.body;
-      const user = await UserService.updatePassword({ token, oldPassword, newPassword });
+      const userId = req.user.id;
+      const { oldPassword, newPassword } = req.body;
+      const user = await UserService.updatePassword({ userId, oldPassword, newPassword });
       return ResponseHelper.success({ res, statusCode: 200, message: Messages.USER_PASSWORD_UPDATE_SUCCESS, data: { user } });
     } catch (error) {
       return ResponseHelper.sendError({ res, statusCode: error.statusCode || 500, message: error.message });
@@ -67,8 +68,9 @@ class UserController {
 
   static async deleteUser(req, res) {
     try {
-      const { token, userId } = req.body;
-      const user = await UserService.deleteUser({ token, userId });
+      const userId = req.user.id;
+      const { userid } = req.body;
+      const user = await UserService.deleteUser({ userId, userid });
       return ResponseHelper.success({ res, statusCode: 200, message: Messages.USER_DELETED_SUCCESS, data: { user } });
     } catch (error) {
       return ResponseHelper.sendError({ res, statusCode: error.statusCode || 500, message: error.message });

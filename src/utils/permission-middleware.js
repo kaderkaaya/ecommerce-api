@@ -5,7 +5,7 @@ import Errors from '../modules/panel/constants/error.js';
 export default function permissionMiddleware({ endpointName }) {
     return async (req, res, next) => {
         try {
-            const role = req.token.role;
+            const role = req.user.role;
             const userRoleDetails = await RoleData.getRoleById({ roleId: role });
             if (!userRoleDetails) {
                 throw new ErrorHelper(Errors.FORBIDDEN.message, Errors.FORBIDDEN.statusCode);

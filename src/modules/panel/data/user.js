@@ -36,6 +36,8 @@ class UserData {
   }
 
   static async updateUser({ userId, name, surname, email, phoneNumber }) {
+    console.log('userid', userId);
+
     const updateData = {};
     if (name !== undefined) updateData.name = name;
     if (surname !== undefined) updateData.surname = surname;
@@ -57,12 +59,12 @@ class UserData {
     return user;
   }
 
-  static async deleteUser({ userId }) {
+  static async deleteUser({ userid }) {
     await UserModel.update(
       { userStatus: UserStatus.USER_STATUS.INACTIVE },
-      { where: { id: userId } }
+      { where: { id: userid } }
     );
-    const user = await UserModel.findOne({ where: { id: userId } });
+    const user = await UserModel.findOne({ where: { id: userid } });
     return user;
   }
 

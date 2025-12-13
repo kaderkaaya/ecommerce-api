@@ -16,31 +16,31 @@ router.post('/login',
 
 router.get('/get-user',
     authenticate,
-    permissionMiddleware({ endpointName: 'get-user' }),
+    // permissionMiddleware({ endpointName: 'get-user' }),
     SchemaHelper.validateSchemaQuery(UserSchema.getUser),
     UserController.getUser);
 
 router.get('/get-users',
-    // authenticate,
+    authenticate,
     // permissionMiddleware({ endpointName: 'get-users' }),
     SchemaHelper.validateSchemaQuery(UserSchema.getUsers),
     UserController.getUsers);
 
 router.post('/update-user',
     authenticate,
-    permissionMiddleware({ endpointName: 'update-user' }),
+    // permissionMiddleware({ endpointName: 'update-user' }),
     SchemaHelper.validateSchemaBody(UserSchema.updateUser),
     UserController.updateUser);
 
 router.post('/update-password',
     authenticate,
-    permissionMiddleware({ endpointName: 'update-password' }),
+    // permissionMiddleware({ endpointName: 'update-password' }),
     SchemaHelper.validateSchemaBody(UserSchema.updatePassword),
     UserController.updatePassword);
 
 router.post('/delete-user',
     authenticate,
-    permissionMiddleware({ endpointName: 'delete-user' }),
+    // permissionMiddleware({ endpointName: 'delete-user' }),
     SchemaHelper.validateSchemaBody(UserSchema.deleteUser),
     UserController.deleteUser);
 

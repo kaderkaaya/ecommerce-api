@@ -57,41 +57,41 @@ class UserService {
       };
    }
 
-   static async getUser({ token }) {
-      const decoded = await TokenHelper.verifyToken({ token });
-      if (!decoded) {
-         throw new ErrorHelper(Errors.INVALID_TOKEN);
-      }
-      const user = await UserData.findById({ id: decoded.id });
+   static async getUser({ userId }) {
+      const user = await UserData.findById({ id: userId });
       if (!user) {
          throw new ErrorHelper(Errors.USER_NOT_FOUND);
       }
       return user;
    }
 
-   static async getUsers({ token, page, limit }) {
-      await this.decodeUser({ token });
+   static async getUsers({ userId, page, limit }) {
+      const user = await UserData.findById({ id: userId });
+      if (!user) {
+         throw new ErrorHelper(Errors.USER_NOT_FOUND);
+      }
       const users = await UserData.getAllUsers({ page, limit });
       return users;
    }
 
-   static async updateUser({ token, name, surname, email, phoneNumber }) {
-      const uss = await this.decodeUser({ token });
-      const user = await UserData.updateUser({ userId: uss.id, name, surname, email, phoneNumber });
+   static async updateUser({ userId, name, surname, email, phoneNumber }) {
+      const user = await UserData.updateUser({ userId, name, surname, email, phoneNumber });
       return user;
    }
 
-   static async decodeUser({ token }) {
-      const decoded = await TokenHelper.verifyToken({ token });
-      const user = await UserData.findById({ id: decoded.id });
+   static async decodeUser({ userId }) {
+      const user = await UserData.findById({ id: userId });
       if (!user) {
          throw new ErrorHelper(Errors.USER_NOT_FOUND);
       }
       return user;
    }
 
-   static async updatePassword({ token, oldPassword, newPassword }) {
-      const uss = await this.decodeUser({ token });
+   static async updatePassword({ userId, oldPassword, newPassword }) {
+      const uss = await UserData.findById({ id: userId });
+      if (!uss) {
+         throw new ErrorHelper(Errors.USER_NOT_FOUND);
+      }
       const veriftyPasssword = HashHelper.verifyPassword({ password: oldPassword, hashedPassword: uss.password });
       if (!veriftyPasssword) {
          throw new ErrorHelper(Errors.USER_NOT_FOUND.message, Errors.USER_NOT_FOUND.statusCode);
@@ -101,9 +101,12 @@ class UserService {
       return user;
    }
 
-   static async deleteUser({ token, userId }) {
-      await this.decodeUser({ token });
-      const user = await UserData.deleteUser({ userId });
+   static async deleteUser({ userId, userid }) {
+      const uss = await UserData.findById({ id: userId });
+      if (!uss) {
+         throw new ErrorHelper(Errors.USER_NOT_FOUND);
+      }
+      const user = await UserData.deleteUser({ userid });
       return user;
    }
 }
