@@ -3,7 +3,7 @@ const router = express.Router();
 import UserController from '../controllers/user.js';
 import UserSchema from '../schemas/user.js';
 import SchemaHelper from '../../../utils/schema-helper.js';
-import authenticate from '../../../utils/auth-middleware.js';
+import authenticate from '../../../utils/auth-middleware-user.js';
 
 router.post('/create-user',
     SchemaHelper.validateSchemaBody(UserSchema.createUser),

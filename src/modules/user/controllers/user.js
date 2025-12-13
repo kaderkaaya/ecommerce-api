@@ -9,8 +9,6 @@ class UserController {
       const user = await UserService.createUser({ name, surname, email, password, phoneNumber });
       return ResponseHelper.success({ res, statusCode: 201, message: Messages.USER_CREATED_SUCCESS, data: { user } });
     } catch (error) {
-      console.log('e',error);
-      
       return ResponseHelper.sendError({ res, statusCode: error.statusCode || 500, message: error.message });
     }
   }

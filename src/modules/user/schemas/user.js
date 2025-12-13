@@ -33,6 +33,5 @@ export default {
     }),
 
     deleteAccount: Joi.object({
-        userId: Joi.number().required(),
     }),
 }

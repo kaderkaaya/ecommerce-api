@@ -1,4 +1,4 @@
-import TokenModel from '../../../models/panel-user/token.js';
+import TokenModel from '../../../models/user/token.js';
 class TokenData {
 
     static async updateRefreshToken({ userId, refreshToken: token, expiresAt }) {
