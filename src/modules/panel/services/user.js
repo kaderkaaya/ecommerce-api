@@ -8,11 +8,11 @@ import TokenData from '../data/token.js';
 
 class UserService {
    static async createUser({ name, surname, email, password, phoneNumber, role }) {
-      const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
-      const isValidPassword = passwordRegex.test(password);
-      if (!isValidPassword) {
-         throw new ErrorHelper(Errors.PASSWORD_ERROR.message, Errors.PASSWORD_ERROR.statusCode);
-      }
+      // const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+      // const isValidPassword = passwordRegex.test(password);
+      // if (!isValidPassword) {
+      //    throw new ErrorHelper(Errors.PASSWORD_ERROR.message, Errors.PASSWORD_ERROR.statusCode);
+      // }
       const mailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       const isValidEmail = mailRegex.test(email);
       if (!isValidEmail) {
@@ -94,7 +94,7 @@ class UserService {
       const uss = await this.decodeUser({ token });
       const veriftyPasssword = HashHelper.verifyPassword({ password: oldPassword, hashedPassword: uss.password });
       if (!veriftyPasssword) {
-         throw new ErrorHelper(Errors.USER_NOT_FOUND.message,Errors.USER_NOT_FOUND.statusCode);
+         throw new ErrorHelper(Errors.USER_NOT_FOUND.message, Errors.USER_NOT_FOUND.statusCode);
       }
       const hashedPassword = HashHelper.hashPassword({ password: newPassword })
       const user = await UserData.updatePassword({ userId: uss.id, password: hashedPassword });

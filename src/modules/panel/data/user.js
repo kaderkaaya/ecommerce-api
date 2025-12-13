@@ -17,17 +17,18 @@ class UserData {
   }
 
   static async findByPhoneNumber({ phoneNumber }) {
-    return UserModel.findOne({ where: { phoneNumber } });
+    const user = await UserModel.findOne({ where: { phoneNumber } });
+    return user;
   }
 
   static async findById({ id }) {
-    return UserModel.findOne({ where: { id } });
+    return await UserModel.findOne({ where: { id } });
   }
 
   static async getAllUsers({ page, limit }) {
     const skip = Number((page - 1) * limit);
     const numLimint = Number(limit);
-    return UserModel.findAll({
+    return await UserModel.findAll({
       where: { userStatus: UserStatus.USER_STATUS.ACTIVE },
       skip,
       limit: numLimint
