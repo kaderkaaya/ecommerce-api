@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../../config/config.js";
 import UserStatus from "../../modules/panel/constants/const.js";
-const User = sequelize.define('User', {
+const PanelUser = sequelize.define('PanelUser', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -52,4 +52,4 @@ const User = sequelize.define('User', {
     timestamps: true,
 });
 
-export default User;
+export default PanelUser;

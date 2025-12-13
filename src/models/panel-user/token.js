@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../../config/config.js";
 
-const Token = sequelize.define('Token', {
+const PanelUsersToken = sequelize.define('PanelUsersToken', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -24,4 +24,4 @@ const Token = sequelize.define('Token', {
     timestamps: true,
 });
 
-export default Token;
+export default PanelUsersToken;

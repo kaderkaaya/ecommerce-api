@@ -1,8 +1,15 @@
 import { Sequelize } from "sequelize";
-import dotenv from "dotenv";
+import { fileURLToPath } from "url";
 import path from "path";
+import dotenv from "dotenv";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+dotenv.config({
+  path: path.resolve(__dirname, "../../.env"),
+});
+
 //burda env dosyası src dısında oldugu ıcın path ile yolunu belirttık
-dotenv.config({ path: path.resolve('../.env') });
 const DB_DIALECT = process.env.DB_DIALECT;
 const DB_HOST = process.env.DB_HOST;
 const DB_NAME = process.env.DB_NAME;
