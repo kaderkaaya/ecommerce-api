@@ -52,5 +52,9 @@ export default {
     FORBIDDEN: {
         statusCode: 609,
         message: 'Forbidden access'
+    },
+    ROLE_ERROR: {
+        statusCode: 610,
+        message: 'Invalid role'
     }
 }

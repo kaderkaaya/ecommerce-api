@@ -5,11 +5,11 @@ jest.unstable_mockModule('../../config/config.js', () => ({
         define: jest.fn()
     }
 }));
+
 jest.mock('jsonwebtoken', () => ({
     sign: jest.fn(() => 'mock-jwt-token'),
     verify: jest.fn(() => ({ id: 1, role: 1 }))
 }));
-
 
 jest.unstable_mockModule('../../utils/hash-pasword.js', () => ({
     default: {
@@ -18,6 +18,7 @@ jest.unstable_mockModule('../../utils/hash-pasword.js', () => ({
 
     }
 }));
+
 jest.unstable_mockModule('../../modules/panel/data/token.js', () => ({
     default: {
         findByUserId: jest.fn(),
@@ -31,9 +32,9 @@ jest.unstable_mockModule('../../models/panel-user/user.js', () => ({
         create: jest.fn(),
         findOne: jest.fn(),
         update: jest.fn(),
-        destroy: jest.fn()
     }
 }));
+
 //burda ilk olarak config dosyamızı import ediyoruz çünkü
 // mockladığımızda dbye mocklamaya çalışıyoruz ve hata alıyoruz.
 //burda db ile test etmememiz gerek 
@@ -50,9 +51,11 @@ const { default: PanelUserService } = await import(
 const { default: PanelUserModel } = await import(
     '../../models/panel-user/user.js'
 );
+
 const { default: HashHelper } = await import(
     '../../utils/hash-pasword.js'
 );
+
 const { default: TokenData } = await import(
     '../../modules/panel/data/token.js'
 );
@@ -118,7 +121,6 @@ describe('login', () => {
             token: 'mock-token',
             expiresAt: new Date(Date.now() + 100000)
         });
-        console.log('token', token.token);
 
         const result = await PanelUserService.login({
             phoneNumber: '533087777',

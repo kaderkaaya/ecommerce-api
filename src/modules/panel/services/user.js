@@ -38,15 +38,16 @@ class UserService {
          throw new ErrorHelper(Errors.INVALID_PASSWORD.message, Errors.INVALID_PASSWORD.statusCode);
       }
       const userToken = await TokenData.findByUserId({ userId: user.id });
+      const accessToken = await TokenHelper.generateToken({ payload: { id: user.id, role: user.role }, expiresIn: '1h' });
+      const refreshToken = await TokenHelper.generateToken({ payload: { id: user.id, role: user.role }, expiresIn: '7d' });
+
       if (userToken && userToken.expiresAt > new Date()) {
          return {
             ...user.dataValues,
-            accessToken: userToken.accessToken,
-            refreshToken: userToken.refreshToken
+            refreshToken: userToken.token,
+            accessToken
          };
       }
-      const accessToken = await TokenHelper.generateToken({ payload: { id: user.id, role: user.role }, expiresIn: '1h' });
-      const refreshToken = await TokenHelper.generateToken({ payload: { id: user.id, role: user.role }, expiresIn: '7d' });
       const expiresAt = new Date();
       expiresAt.setDate(expiresAt.getDate() + 7);
       await TokenData.updateRefreshToken({ userId: user.id, refreshToken, expiresAt });
