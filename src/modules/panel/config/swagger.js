@@ -18,11 +18,11 @@ const options = {
                 url: "http://localhost:3000",
             },
         ],
-         security: [
-        {
-            bearerAuth: []
-        }
-    ],
+        security: [
+            {
+                bearerAuth: []
+            }
+        ],
         components: {
             securitySchemes: {
                 bearerAuth: {
@@ -34,15 +34,13 @@ const options = {
             schemas: {
                 CreateUser: {
                     type: 'object',
-                    required: ['email', 'password', 'name', 'surname', 'role', 'phoneNumber'],
+                    required: ['email', 'password', 'role', 'phoneNumber'],
                     properties: {
                         email: {
                             type: 'string',
-                            required: true
                         },
                         password: {
                             type: 'string',
-                            required: true
                         },
                         name: {
                             type: 'string',
@@ -52,11 +50,9 @@ const options = {
                         },
                         role: {
                             type: 'number',
-                            required: true
                         },
                         phoneNumber: {
                             type: 'string',
-                            required: true
                         },
 
                     }
@@ -67,21 +63,17 @@ const options = {
                     properties: {
                         phoneNumber: {
                             type: 'string',
-                            required: true
                         },
                         password: {
                             type: 'string',
-                            required: true
                         },
                     }
                 },
                 UpdateUser: {
                     type: 'object',
-                    required: ['email', 'password', 'name', 'surname', 'phoneNumber'],
                     properties: {
                         email: {
                             type: 'string',
-                            required: true
                         },
                         name: {
                             type: 'string',
@@ -102,11 +94,9 @@ const options = {
                     properties: {
                         oldPassword: {
                             type: 'string',
-                            required: true
                         },
                         newPassword: {
                             type: 'string',
-                            required: true
                         },
 
                     }
@@ -117,14 +107,83 @@ const options = {
                     properties: {
                         userid: {
                             type: 'number',
-                            required: true
                         }
                     },
+                },
+                CreateRole: {
+                    type: 'object',
+                    required: ['name', 'description', 'color', 'authEndpoints'],
+                    properties: {
+                        name: {
+                            type: 'string',
+                        },
+                        description: {
+                            type: 'string',
+                        },
+                        color: {
+                            type: 'string',
+                        },
+                        authEndpoints: {
+                            type: 'array',
+                            items: {
+                                type: 'string',
+                                example: '/user/update-password'
+                            }
+                        }
+
+                    }
+                },
+                UpdateRole: {
+                    type: 'object',
+                    required: ['roleId'],
+                    properties: {
+                        roleId: {
+                            type: 'string',
+                        },
+                        name: {
+                            type: 'string',
+                        },
+                        description: {
+                            type: 'string',
+                        },
+                        color: {
+                            type: 'string',
+                        },
+                       authEndpoints: {
+                            type: 'array',
+                            items: {
+                                type: 'string',
+                                example: '/user/update-password'
+                            }
+                        }
+                    }
+                },
+                DeleteRole: {
+                    type: 'object',
+                    required: ['roleId'],
+                    properties: {
+                        roleId: {
+                            type: 'string',
+                            required: true
+                        },
+                    }
+                },
+                GetRoles: {
+                    type: 'object',
+                    properties: {
+                        page: {
+                            type: 'number'
+                        },
+                        limit: {
+                            type: 'number'
+                        },
+                    }
                 },
             }
 
         }
     },
+
 
     apis: [
         path.join(

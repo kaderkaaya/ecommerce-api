@@ -32,7 +32,7 @@ router.post(
  * @swagger
  * /user/login:
  *   post:
- *     summary: Update user
+ *     summary: Login user
  *     tags: [User]
  *     requestBody:
  *       required: true
@@ -47,6 +47,7 @@ router.post(
 router.post('/login',
     SchemaHelper.validateSchemaBody(UserSchema.login),
     UserController.login);
+    
 router.get('/get-user',
     authenticate,
     permissionMiddleware({ endpointName: 'get-user' }),
@@ -106,6 +107,7 @@ router.post('/update-password',
     // permissionMiddleware({ endpointName: 'update-password' }),
     SchemaHelper.validateSchemaBody(UserSchema.updatePassword),
     UserController.updatePassword);
+
 /**
  * @swagger
  * /user/delete-user:
