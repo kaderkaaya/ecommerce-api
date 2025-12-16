@@ -19,8 +19,7 @@ class UserService {
          throw new ErrorHelper(Errors.EMAIL_ERROR.message, Errors.EMAIL_ERROR.statusCode);
       }
       const user = await UserData.findByPhoneNumber({ phoneNumber });
-      console.log('user',user);
-      
+
       if (user) {
          throw new ErrorHelper(Errors.EXISTING_USER.message, Errors.EXISTING_USER.statusCode);
       }
