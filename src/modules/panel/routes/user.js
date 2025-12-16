@@ -23,7 +23,7 @@ import authenticate from '../../../utils/auth-middleware.js';
  *         description: User created succesfully
  */
 router.post(
-    "/create-user",
+    '/create-user',
     SchemaHelper.validateSchemaBody(UserSchema.createUser),
     UserController.createUser
 );
@@ -87,6 +87,8 @@ router.post('/update-user',
  * @swagger
  * /user/update-password:
  *   post:
+*     security:
+ *       - bearerAuth: []
  *     summary: Update password
  *     tags: [User]
  *     requestBody:
@@ -101,7 +103,7 @@ router.post('/update-user',
  */
 router.post('/update-password',
     authenticate,
-    permissionMiddleware({ endpointName: 'update-password' }),
+    // permissionMiddleware({ endpointName: 'update-password' }),
     SchemaHelper.validateSchemaBody(UserSchema.updatePassword),
     UserController.updatePassword);
 /**
@@ -122,7 +124,7 @@ router.post('/update-password',
  */
 router.post('/delete-user',
     authenticate,
-    permissionMiddleware({ endpointName: 'delete-user' }),
+    // permissionMiddleware({ endpointName: 'delete-user' }),
     SchemaHelper.validateSchemaBody(UserSchema.deleteUser),
     UserController.deleteUser);
 

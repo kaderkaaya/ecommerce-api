@@ -8,7 +8,10 @@ const PANEL_PORT = process.env.PANEL_PORT;
 
 const app = express();
 app.use(express.json());
-app.use("/api", swaggerUi.serve, swaggerUi.setup(swagger));
+app.use('/api-docs', swaggerUi.serve,
+     swaggerUi.setup(swagger,{
+    persistAuthorization: true,
+}));
 
 app.use('/user', PanelUserRouter);
 app.use('/role', PanelRoleRouter);

@@ -15,9 +15,14 @@ const options = {
         },
         servers: [
             {
-                url: "http://localhost:3001",
+                url: "http://localhost:3000",
             },
         ],
+         security: [
+        {
+            bearerAuth: []
+        }
+    ],
         components: {
             securitySchemes: {
                 bearerAuth: {
@@ -108,9 +113,9 @@ const options = {
                 },
                 DeleteUser: {
                     type: 'object',
-                    required: ['userId'],
+                    required: ['userid'],
                     properties: {
-                        userId: {
+                        userid: {
                             type: 'number',
                             required: true
                         }
@@ -124,14 +129,9 @@ const options = {
     apis: [
         path.join(
             __dirname,
-            "../routes/**/*.js"
+            '../routes/**/*.js'
         ),
     ],
-    security: [
-        {
-            bearerAuth: []
-        }
-    ]
 };
 
 const swagger = swaggerJSDoc(options);
