@@ -1,7 +1,7 @@
 import ResponseHelper from '../../../utils/response-handler.js';
-import CategoryService from '../services/category';
+import CategoryService from '../services/category.js';
 class CategoryController {
-    static async createCategory(req, res) {
+    static async createCategory(req, res) {        
         try {
             const userId = req.user.id;
             const { name, description, isActive, slug } = req.body;
@@ -13,6 +13,7 @@ class CategoryController {
         }
 
     }
+
     static async updateCategory(req, res) {
         try {
             const userId = req.user.id;
@@ -25,11 +26,12 @@ class CategoryController {
         }
 
     }
+
     static async getCategory(req, res) {
         try {
             const userId = req.user.id;
             const { categoryId } = req.query;
-            const category = await CategoryService.getCategory({ userId, categoryId });
+            const category = await CategoryService.getCategory({ categoryId });
             return ResponseHelper.success({ res, statusCode: 201, message: 'successs', data: { category } });
 
         } catch (error) {
@@ -37,6 +39,7 @@ class CategoryController {
         }
 
     }
+
     static async getCategories(req, res) {
         try {
             const userId = req.user.id;
@@ -49,6 +52,7 @@ class CategoryController {
         }
 
     }
+
     static async deleteCategory(req, res) {
         try {
             const userId = req.user.id;
@@ -59,7 +63,6 @@ class CategoryController {
         } catch (error) {
             return ResponseHelper.sendError({ res, statusCode: error.statusCode || 500, message: error.message });
         }
-
     }
 
 

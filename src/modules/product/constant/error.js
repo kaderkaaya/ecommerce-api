@@ -53,8 +53,8 @@ export default {
         statusCode: 609,
         message: 'Forbidden access'
     },
-    ROLE_ERROR: {
+    CATEGORY_ERROR: {
         statusCode: 610,
-        message: 'Invalid role'
+        message: 'Category not found'
     }
 }

@@ -18,7 +18,7 @@ export default {
     }),
 
     getCategory: Joi.object({
-        categoryId: Joi.number(),
+        categoryId: Joi.number().required(),
     }),
 
     getCategories: Joi.object({
@@ -27,6 +27,6 @@ export default {
     }),
 
     deleteCategory: Joi.object({
-        categoryId: Joi.number(),
+        categoryId: Joi.number().required(),
     }),
 }
