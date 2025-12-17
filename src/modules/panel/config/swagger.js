@@ -32,6 +32,16 @@ const options = {
                 }
             },
             schemas: {
+                Response: {
+                    type: 'object',
+                    properties: {
+                        success: { type: 'boolean' },
+                        statusCode: { type: 'number' },
+                        message: { type: 'string' },
+                        data: { type: 'object' }
+                    }
+                },
+
                 CreateUser: {
                     type: 'object',
                     required: ['email', 'password', 'role', 'phoneNumber'],
@@ -83,7 +93,6 @@ const options = {
                         },
                         phoneNumber: {
                             type: 'string',
-                            required: true
                         },
 
                     }
@@ -149,7 +158,7 @@ const options = {
                         color: {
                             type: 'string',
                         },
-                       authEndpoints: {
+                        authEndpoints: {
                             type: 'array',
                             items: {
                                 type: 'string',
@@ -163,22 +172,21 @@ const options = {
                     required: ['roleId'],
                     properties: {
                         roleId: {
-                            type: 'string',
-                            required: true
+                            type: 'number',
                         },
                     }
                 },
-                GetRoles: {
-                    type: 'object',
-                    properties: {
-                        page: {
-                            type: 'number'
-                        },
-                        limit: {
-                            type: 'number'
-                        },
-                    }
-                },
+                // GetRoles: {
+                //     type: 'object',
+                //     properties: {
+                //         page: {
+                //             type: 'number'
+                //         },
+                //         limit: {
+                //             type: 'number'
+                //         },
+                //     }
+                // },
             }
 
         }

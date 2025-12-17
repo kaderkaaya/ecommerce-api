@@ -10,8 +10,6 @@ import authenticate from '../../../utils/auth-middleware.js';
  * @swagger
  * /role/create-role:
  *   post:
- *     security:
- *       - bearerAuth: []
  *     summary: Create Role
  *     tags: [Role]
  *     requestBody:
@@ -20,10 +18,15 @@ import authenticate from '../../../utils/auth-middleware.js';
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/CreateRole'
- *      responses:
- *      201:
- *         description: User updated succesfully
+ *     responses:
+ *       201:
+ *         description: Role created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Response'
  */
+
 router.post('/create-role',
     authenticate,
     permissionMiddleware({ endpointName: 'create-role' }),
@@ -44,6 +47,13 @@ router.post('/create-role',
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/UpdateRole'
+ *     responses:
+ *       201:
+ *         description: Role updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Response'
  */
 router.post('/update-role',
     authenticate,
@@ -64,6 +74,13 @@ router.post('/update-role',
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/DeleteRole'
+ *     responses:
+ *       201:
+ *         description: Role deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Response'
  */
 router.post('/delete-role',
     authenticate,
@@ -71,21 +88,6 @@ router.post('/delete-role',
     SchemaHelper.validateSchemaBody(RoleSchema.deleteRole),
     RoleController.deleteRole);
 
-/**
- * @swagger
- * /role/get-roles:
- *   get:
- *     security:
- *       - bearerAuth: []
- *     summary: Get Roles
- *     tags: [Role]
- *     requestQuery:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/GetRoles'
- */
 router.get('/get-roles',
     authenticate,
     permissionMiddleware({ endpointName: 'get-roles' }),

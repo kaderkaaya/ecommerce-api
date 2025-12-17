@@ -9,6 +9,7 @@ class RoleController {
             const { name, description, color, authEndpoints } = req.body;
             const role = await RoleService.createRole({ userId, name, description, color, authEndpoints });
             return ResponseHelper.success({ res, statusCode: 201, message: Messages.ROLE_CREATED_SUCCESS, data: { role } });
+
         } catch (error) {
             return ResponseHelper.sendError({ res, statusCode: error.statusCode || 500, message: error.message });
         }
