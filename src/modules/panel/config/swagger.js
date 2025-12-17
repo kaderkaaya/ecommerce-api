@@ -119,6 +119,20 @@ const options = {
                         }
                     },
                 },
+                GetUser: {
+                    type: 'object',
+                },
+                GetUsers: {
+                    type: 'object',
+                    properties: {
+                        page: {
+                            type: 'number'
+                        },
+                        limit: {
+                            type: 'number'
+                        },
+                    }
+                },
                 CreateRole: {
                     type: 'object',
                     required: ['name', 'description', 'color', 'authEndpoints'],
@@ -176,17 +190,17 @@ const options = {
                         },
                     }
                 },
-                // GetRoles: {
-                //     type: 'object',
-                //     properties: {
-                //         page: {
-                //             type: 'number'
-                //         },
-                //         limit: {
-                //             type: 'number'
-                //         },
-                //     }
-                // },
+                GetRoles: {
+                    type: 'object',
+                    properties: {
+                        page: {
+                            type: 'number'
+                        },
+                        limit: {
+                            type: 'number'
+                        },
+                    }
+                },
             }
 
         }

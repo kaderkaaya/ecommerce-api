@@ -87,10 +87,33 @@ router.post('/delete-role',
     permissionMiddleware({ endpointName: 'delete-role' }),
     SchemaHelper.validateSchemaBody(RoleSchema.deleteRole),
     RoleController.deleteRole);
+/**
+ * @swagger
+ * /role/get-roles:
+ *   get:
+ *     summary: Get Roles
+ *     tags: [Role]
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: number
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: number
+ *     responses:
+ *       200:
+ *         description: Successfully fetched roles
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Response'
+ */
 
 router.get('/get-roles',
     authenticate,
-    permissionMiddleware({ endpointName: 'get-roles' }),
+    // permissionMiddleware({ endpointName: 'get-roles' }),
     SchemaHelper.validateSchemaQuery(RoleSchema.getRoles),
     RoleController.getRoles);
 

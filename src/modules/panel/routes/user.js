@@ -47,12 +47,52 @@ router.post(
 router.post('/login',
     SchemaHelper.validateSchemaBody(UserSchema.login),
     UserController.login);
-    
+/**
+ * @swagger
+ * /user/get-user:
+ *   get:
+ *     summary: Get User
+ *     tags: [User]
+ *     parameters:
+ *         schema:
+ *           type: number
+ *     responses:
+ *       200:
+ *         description: Successfully fetched user
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Response'
+ */
+
 router.get('/get-user',
     authenticate,
     permissionMiddleware({ endpointName: 'get-user' }),
     SchemaHelper.validateSchemaQuery(UserSchema.getUser),
     UserController.getUser);
+/**
+ * @swagger
+ * /user/get-users:
+ *   get:
+ *     summary: Get Users
+ *     tags: [User]
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: number
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: number
+ *     responses:
+ *       200:
+ *         description: Successfully fetched users
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Response'
+ */
 
 router.get('/get-users',
     authenticate,
