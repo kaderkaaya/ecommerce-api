@@ -12,7 +12,7 @@ const startServer = async () => {
     try {
         console.log("Starting server...");
         await sequelize.authenticate();
-        await sequelize.sync({ alter: true });
+        await sequelize.sync({ force: false });
     } catch (error) {
         console.error("Failed to start server:", error);
     }

@@ -16,11 +16,6 @@ const Product = sequelize.define('Product', {
         allowNull: false,
         unique: true
     },
-    variantId: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-    },
-
     isActive: {
         type: DataTypes.BOOLEAN,
         defaultValue: true

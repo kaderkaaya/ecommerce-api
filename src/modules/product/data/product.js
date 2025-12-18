@@ -46,7 +46,7 @@ class ProductData {
         return product;
     }
 
-    static async getCategories({ page, limit }) {
+    static async getProducts({ page, limit }) {
         const offset = Number((page - 1) * limit);
         const numLim = Number(limit);
         return await ProductModel.findAll({

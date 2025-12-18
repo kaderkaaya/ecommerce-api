@@ -14,7 +14,7 @@ class ProductService {
     static async updateProduct({ userId, productId, name, description, isActive, slug, categoryId }) {
         const product = await ProductData.getProductById({ productId });
         if (!product) throw new ErrorHelper(Errors.PRODUCT_ERROR.message, Errors.PRODUCT_ERROR.statusCode);
-        const category = await CategoryData.getCategoryById({ categoryId });
+        const category = await CategoryData.getCategoryById({ categoryId: product.categoryId });
         if (!category) throw new ErrorHelper(Errors.CATEGORY_ERROR.message, Errors.CATEGORY_ERROR.statusCode);
         const updatedProduct = await ProductData.updateProduct({ userId, productId, name, description, isActive, slug, categoryId });
         return updatedProduct;
@@ -28,8 +28,8 @@ class ProductService {
     }
 
     static async getProduct({ productId }) {
-        const Product = await ProductData.getProductById({ productId });
-        return Product;
+        const product = await ProductData.getProductById({ productId });
+        return product;
     }
 
     static async getProducts({ page, limit, categoryId, searchName }) {

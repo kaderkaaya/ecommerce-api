@@ -5,7 +5,7 @@ export default {
         description: Joi.string().required(),
         isActive: Joi.boolean().optional(),
         slug: Joi.string().optional(),
-        categoryId:Joi.number().required(),
+        categoryId: Joi.number().required(),
     }),
 
     updateProduct: Joi.object({
@@ -14,11 +14,11 @@ export default {
         description: Joi.string(),
         isActive: Joi.boolean(),
         slug: Joi.string(),
-        categoryId: Joi.number(), 
+        categoryId: Joi.number(),
     }),
 
     getProduct: Joi.object({
-        ProductId: Joi.number().required(),
+        productId: Joi.number().required(),
     }),
 
     getProducts: Joi.object({
