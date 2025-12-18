@@ -43,6 +43,16 @@ class CategoryData {
         return category;
     }
 
+    static async getCategories({ page, limit }) {
+        const offset = Number((page - 1) * limit);
+        const numLim = Number(limit);
+        return await CategoryModel.findAll({
+            where: { isActive: true },
+            offset,
+            numLim
+        })
+    }
+
 
 }
 export default CategoryData;

@@ -5,7 +5,7 @@ export default {
         description: Joi.string().required(),
         isActive: Joi.boolean().optional(),
         slug: Joi.string().optional(),
-        parentId: Joi.boolean().optional(),
+        parentId: Joi.number().optional(),
     }),
 
     updateCategory: Joi.object({
