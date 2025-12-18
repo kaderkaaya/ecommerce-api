@@ -1,6 +1,7 @@
 import sequelize from "../../config/config.js";
 import express from "express";
 import CategoryRouter from '../product/routes/category.js';
+import ProductRouter from '../product/routes/product.js';
 import swaggerUi from 'swagger-ui-express';
 import swagger from "./config/swagger.js";
 import helmet from "helmet";
@@ -17,6 +18,7 @@ app.use('/api-docs', swaggerUi.serve,
     }));
 
 app.use('/category', CategoryRouter);
+app.use('/product',ProductRouter);
 
 const startServer = async () => {
     try {

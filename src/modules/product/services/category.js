@@ -31,7 +31,7 @@ class CategoryService {
         const categories = await CategoryData.getCategories({ page, limit });
         return categories;
     }
-    getCategory
+    
 }
 
 export default CategoryService;

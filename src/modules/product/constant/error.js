@@ -56,5 +56,9 @@ export default {
     CATEGORY_ERROR: {
         statusCode: 610,
         message: 'Category not found'
+    },
+    PRODUCT_ERROR: {
+        statusCode: 611,
+        message: 'Product not found'
     }
 }
