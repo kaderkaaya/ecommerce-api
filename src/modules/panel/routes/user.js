@@ -5,7 +5,7 @@ import UserSchema from '../schemas/user.js';
 import SchemaHelper from '../../../utils/schema-helper.js';
 import permissionMiddleware from '../../../utils/permission-middleware.js';
 import authenticate from '../../../utils/auth-middleware.js';
-
+import authLimiter from "../../../utils/auth-limiter.js";
 /**
  * @swagger
  * /user/create-user:
@@ -45,6 +45,7 @@ router.post(
  *         description: User login successfully
  */
 router.post('/login',
+    authLimiter,
     SchemaHelper.validateSchemaBody(UserSchema.login),
     UserController.login);
 /**
@@ -66,6 +67,7 @@ router.post('/login',
  */
 
 router.get('/get-user',
+    authLimiter,
     authenticate,
     permissionMiddleware({ endpointName: 'get-user' }),
     SchemaHelper.validateSchemaQuery(UserSchema.getUser),

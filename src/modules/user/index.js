@@ -1,10 +1,12 @@
 import sequelize from "../../config/config.js";
 import express from "express";
 import UserRouter from '../../modules/user/routes/user.js';
+import helmet from "helmet";
+
 const USER_PORT = process.env.USER_PORT;
 const app = express();
 app.use(express.json());
-
+app.use(helmet());
 app.use('/user', UserRouter);
 const startServer = async () => {
     try {

@@ -3,10 +3,13 @@ import express from "express";
 import CategoryRouter from '../product/routes/category.js';
 import swaggerUi from 'swagger-ui-express';
 import swagger from "./config/swagger.js";
+import helmet from "helmet";
+
 const PRODUCT_PORT = process.env.PRODUCT_PORT;
 
 const app = express();
 app.use(express.json());
+app.use(helmet());
 
 app.use('/api-docs', swaggerUi.serve,
     swaggerUi.setup(swagger, {

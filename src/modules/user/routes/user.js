@@ -4,16 +4,19 @@ import UserController from '../controllers/user.js';
 import UserSchema from '../schemas/user.js';
 import SchemaHelper from '../../../utils/schema-helper.js';
 import authenticate from '../../../utils/auth-middleware-user.js';
+import authLimiter from "../../../utils/auth-limiter.js";
 
 router.post('/create-user',
     SchemaHelper.validateSchemaBody(UserSchema.createUser),
     UserController.createUser);
 
 router.post('/login',
+    authLimiter,
     SchemaHelper.validateSchemaBody(UserSchema.login),
     UserController.login);
 
 router.get('/get-user',
+    authLimiter,
     authenticate,
     SchemaHelper.validateSchemaQuery(UserSchema.getUser),
     UserController.getUser);

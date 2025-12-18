@@ -5,13 +5,15 @@ import PanelRoleRouter from '../panel/routes/role.js';
 import swaggerUi from 'swagger-ui-express';
 import swagger from "./config/swagger.js";
 const PANEL_PORT = process.env.PANEL_PORT;
+import helmet from "helmet";
 
 const app = express();
 app.use(express.json());
+app.use(helmet());
 app.use('/api-docs', swaggerUi.serve,
-     swaggerUi.setup(swagger,{
-    persistAuthorization: true,
-}));
+    swaggerUi.setup(swagger, {
+        persistAuthorization: true,
+    }));
 
 app.use('/user', PanelUserRouter);
 app.use('/role', PanelRoleRouter);
