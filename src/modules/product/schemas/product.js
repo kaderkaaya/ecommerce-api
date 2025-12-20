@@ -61,26 +61,31 @@ export default {
     }),
 
     updateProductVariantStatus: Joi.object({
-           variantId: Joi.number().required(),
-           variantStatus :Joi.number(),
+        variantId: Joi.number().required(),
+        variantStatus: Joi.number(),
     }),
 
     getProductVariant: Joi.object({
         variantId: Joi.number().required(),
     }),
 
-    addProductStock :Joi.object({
-         productVariantId: Joi.number().required(),
-         quantity: Joi.number().required(),
-         reserved: Joi.number().required(),
-         lowStockThreshold:Joi.number().required(),
+    addProductStock: Joi.object({
+        productVariantId: Joi.number().required(),
+        quantity: Joi.number().required(),
+        reserved: Joi.number().required(),
+        lowStockThreshold: Joi.number().required(),
     }),
 
     updateProductStock: Joi.object({
-        stokcId:Joi.number().required(),
-          productVariantId: Joi.number(),
-         quantity: Joi.number(),
-         reserved: Joi.number(),
-         lowStockThreshold:Joi.number(),
+        stokcId: Joi.number().required(),
+        productVariantId: Joi.number(),
+        quantity: Joi.number(),
+        reserved: Joi.number(),
+        lowStockThreshold: Joi.number(),
+    }),
+
+    updateProductStockStatus: Joi.object({
+        stokcId: Joi.number().required(),
+         status: Joi.number(),
     })
 }
