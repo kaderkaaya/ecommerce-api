@@ -36,6 +36,58 @@ class ProductService {
         const products = await ProductData.getProducts({ page, limit, searchName, categoryId });
         return products;
     }
+
+    static async getProductsForUsers({ page, limit, categoryId, searchName }) {
+        const products = await ProductData.getProductsForUsers({ page, limit, searchName, categoryId });
+        return products;
+    }
+
+    static async addProductVariant({ productId, price, attributes }) {
+        const product = await ProductData.getProductById({ productId });
+        if (!product) throw new ErrorHelper(Errors.PRODUCT_ERROR.message, Errors.PRODUCT_ERROR.statusCode);
+        const productVariant = await ProductData.addProductVariant({ productId, price, attributes });
+        return productVariant;
+    }
+
+    static async updateProductVariant({ variantId, userId, productId, price, attributes }) {
+        const productVariant = await ProductData.getProductVariantById({ variantId });
+        if (!productVariant) throw new ErrorHelper(Errors.PRODUCT_ERROR.message, Errors.PRODUCT_ERROR.statusCode);
+        const updatedProductVariant = await ProductData.updateProductVariant({ variantId, productId, price, attributes });
+        return updatedProductVariant;
+    }
+
+    static async updateProductVariantStatus({ variantStatus, variantId }) {
+        const productVariant = await ProductData.getProductVariantById({ variantId });
+        if (!productVariant) throw new ErrorHelper(Errors.PRODUCT_ERROR.message, Errors.PRODUCT_ERROR.statusCode);
+        const updatedProductVariant = await ProductData.updateProductVariantStatus({ variantStatus, variantId });
+        return updatedProductVariant;
+    }
+
+    static async getProductVariant({ variantId }) {
+        const productVariant = await ProductData.getProductVariantById({ variantId });
+        return productVariant;
+    }
+
+    static async addProductStock({ userId, productVariantId, quantity, reserved, lowStockThreshold }) {
+        const variant = await ProductData.getVariantById({ productVariantId });
+        if (!variant) throw new ErrorHelper(Errors.PRODUCT_ERROR.message, Errors.PRODUCT_ERROR.statusCode);
+        const productStock = await ProductData.addProductStock({ productVariantId, quantity, reserved, lowStockThreshold });
+        return productStock;
+    }
+
+   static async updateProductStock({ stockId, userId, productVariantId, quantity, reserved, lowStockThreshold }){
+    const productStock = await ProductData.getProductstockById({ stockId });
+        if (!productStock) throw new ErrorHelper(Errors.PRODUCT_ERROR.message, Errors.PRODUCT_ERROR.statusCode);
+        const updatedProductStock = await ProductData.updateProductStock({ stockId, userId, productVariantId, quantity, reserved, lowStockThreshold });
+        return updatedProductStock;
+   }
+
+  static async  updateProductStockStatus({ stockId, status }){
+     const productStock = await ProductData.getProductstockById({ stockId });
+        if (!productStock) throw new ErrorHelper(Errors.PRODUCT_ERROR.message, Errors.PRODUCT_ERROR.statusCode);
+        const updatedProductStock = await ProductData.updateProductStockStatus({ stockId, status });
+        return updatedProductStock;
+  }
 }
 
 export default ProductService;

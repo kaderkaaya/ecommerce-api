@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../../config/config.js";
+import VARIANT_STATUS from '../../modules/product/constant/const.js';
 
 const ProductVariant = sequelize.define('ProductVariant', {
     id: {
@@ -15,11 +16,14 @@ const ProductVariant = sequelize.define('ProductVariant', {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-
     attributes: {
         type: DataTypes.JSON,
         allowNull: true
     },
+    variantStatus: {
+        type: DataTypes.INTEGER,
+        defaultValue: VARIANT_STATUS.VARIANT_STATUS.ACTIVE,
+    }
 
 }, {
     tableName: "product_variants",
