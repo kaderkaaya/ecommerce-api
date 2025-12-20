@@ -87,5 +87,11 @@ export default {
     updateProductStockStatus: Joi.object({
         stokcId: Joi.number().required(),
          status: Joi.number(),
+    }),
+
+    addImage : Joi.object({
+        productId: Joi.number().required(),
+        variantId: Joi.number().required(),
+        imageUrl: Joi.string()
     })
 }

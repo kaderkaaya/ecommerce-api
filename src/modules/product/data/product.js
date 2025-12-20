@@ -163,8 +163,8 @@ class ProductData {
         return stock;
     }
 
-    static async updateProductStockStatus({ stockId, status }){
-         const updatedData = {};
+    static async updateProductStockStatus({ stockId, status }) {
+        const updatedData = {};
         if (status !== undefined) updatedData.status = status;
 
         await ProductVariantModel.update(
@@ -173,6 +173,14 @@ class ProductData {
         );
         const stock = await this.getProductstockById({ stockId });
         return stock;
+    }
+
+    static async addImage({ imagePath, productId, variantId }) {
+        return await ProductImageModel.create({
+            url: imagePath,
+            productId,
+            variantId
+        })
     }
 
 }

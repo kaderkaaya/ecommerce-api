@@ -43,11 +43,11 @@ router.get('/get-products-for-users',
     SchemaHelper.validateSchemaQuery(ProductSchema.getProductsForUsers),
     ProductController.getProductsForUsers);
 
-// router.post('/add-image',
-// authenticate,
-// // permissionMiddleware({ endpointName: 'add-image' }),
-// SchemaHelper.validateSchemaBody(ProductSchema.addImage),
-// ProductController.addImage);
+router.post('/add-image',
+authenticate,
+// permissionMiddleware({ endpointName: 'add-image' }),
+SchemaHelper.validateSchemaBody(ProductSchema.addImage),
+ProductController.addImage);
 
 router.post('/add-product-variant',
     authenticate,

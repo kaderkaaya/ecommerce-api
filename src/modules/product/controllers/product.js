@@ -1,6 +1,11 @@
 import ResponseHelper from '../../../utils/response-handler.js';
 import ProductService from '../services/product.js';
 import messages from '../constant/messages.js';
+import fs from 'fs';
+import path from 'path';
+import multer from 'multer';
+import { fileURLToPath } from "url";
+
 class ProductController {
     static async createProduct(req, res) {
         try {
@@ -163,8 +168,41 @@ class ProductController {
             return ResponseHelper.sendError({ res, statusCode: error.statusCode || 500, message: error.message });
         }
     }
-
     
+    static async addImage(req, res) {
+        try {
+            const uploadDir = path.join(
+                path.dirname(fileURLToPath(import.meta.url)),
+                "../upload/uploads"
+            );
 
+            if (!fs.existsSync(uploadDir)) {
+                fs.mkdir(uploadDir, { recursive: true });
+            }
+            const storage = multer.diskStorage({
+                destination: (req, file, cb) => {
+                    cb(null, uploadDir);
+                },
+                filename: function (req, file, cb) {
+                    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+                }
+            });
+            const upload = multer({
+                storage: storage,
+                limits: { fileSize: 1000000 }
+            });
+            const singleUpload = upload.single('imageUrl');
+            singleUpload(req, res, async (err) => {
+                if (err) return res.status(400).send({ error: err.message });
+                const userId = req.user.id;
+                const { productId, variantId } = req.body;
+                const imagePath = req.file ? `../upload/uploads/${req.file.filename}` : null;
+                const product = await ProductService.addImage({ userId, imagePath, productId, variantId });
+                return ResponseHelper.success({ res, statusCode: 201, message: messages.PRODUCT_UPDATE_SUCCESS, data: { product } });
+            });
+        } catch (error) {
+            return ResponseHelper.sendError({ res, statusCode: error.statusCode || 500, message: error.message });
+        }
+    }
 }
 export default ProductController;

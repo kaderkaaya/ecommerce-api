@@ -75,19 +75,26 @@ class ProductService {
         return productStock;
     }
 
-   static async updateProductStock({ stockId, userId, productVariantId, quantity, reserved, lowStockThreshold }){
-    const productStock = await ProductData.getProductstockById({ stockId });
+    static async updateProductStock({ stockId, userId, productVariantId, quantity, reserved, lowStockThreshold }) {
+        const productStock = await ProductData.getProductstockById({ stockId });
         if (!productStock) throw new ErrorHelper(Errors.PRODUCT_ERROR.message, Errors.PRODUCT_ERROR.statusCode);
         const updatedProductStock = await ProductData.updateProductStock({ stockId, userId, productVariantId, quantity, reserved, lowStockThreshold });
         return updatedProductStock;
-   }
+    }
 
-  static async  updateProductStockStatus({ stockId, status }){
-     const productStock = await ProductData.getProductstockById({ stockId });
+    static async updateProductStockStatus({ stockId, status }) {
+        const productStock = await ProductData.getProductstockById({ stockId });
         if (!productStock) throw new ErrorHelper(Errors.PRODUCT_ERROR.message, Errors.PRODUCT_ERROR.statusCode);
         const updatedProductStock = await ProductData.updateProductStockStatus({ stockId, status });
         return updatedProductStock;
-  }
+    }
+
+    static async addImage({ imagePath, productId, variantId }) {
+        const product = await ProductData.getProductById({ productId });
+        if (!product) throw new ErrorHelper(Errors.PRODUCT_ERROR.message, Errors.PRODUCT_ERROR.statusCode);
+        const img = await ProductData.addImage({ imagePath, productId, variantId });
+        return img;
+    }
 }
 
 export default ProductService;
