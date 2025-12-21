@@ -5,6 +5,7 @@ import ProductRouter from '../product/routes/product.js';
 import swaggerUi from 'swagger-ui-express';
 import swagger from "./config/swagger.js";
 import helmet from "helmet";
+import '../../models/product/associates.js';
 
 const PRODUCT_PORT = process.env.PRODUCT_PORT;
 

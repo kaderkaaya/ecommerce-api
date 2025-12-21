@@ -6,6 +6,7 @@ import swaggerUi from 'swagger-ui-express';
 import swagger from "./config/swagger.js";
 const PANEL_PORT = process.env.PANEL_PORT;
 import helmet from "helmet";
+import '../../models/panel-user/associates.js';
 
 const app = express();
 app.use(express.json());

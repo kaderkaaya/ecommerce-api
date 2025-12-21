@@ -49,6 +49,7 @@ const PanelUser = sequelize.define('PanelUser', {
         defaultValue: UserStatus.USER_STATUS.ACTIVE,
     },
 }, {
+    tableName: "panel_users",
     timestamps: true,
 });
 

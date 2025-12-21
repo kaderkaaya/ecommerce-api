@@ -35,6 +35,7 @@ const User = sequelize.define('User', {
         defaultValue: UserStatus.USER_STATUS.ACTIVE,
     },
 }, {
+    tableName: "users",
     timestamps: true,
 });
 

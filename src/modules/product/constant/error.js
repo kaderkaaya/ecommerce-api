@@ -60,5 +60,9 @@ export default {
     PRODUCT_ERROR: {
         statusCode: 611,
         message: 'Product not found'
-    }
+    },
+    PRICE_ERROR: {
+        statusCode: 612,
+        message: 'The price cannot be less than zero.'
+    },
 }

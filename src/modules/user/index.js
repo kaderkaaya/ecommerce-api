@@ -8,6 +8,7 @@ const app = express();
 app.use(express.json());
 app.use(helmet());
 app.use('/user', UserRouter);
+import '../../models/user/associates.js';
 const startServer = async () => {
     try {
         console.log("Starting server...");

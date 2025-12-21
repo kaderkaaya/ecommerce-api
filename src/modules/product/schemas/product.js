@@ -26,6 +26,8 @@ export default {
         limit: Joi.number(),
         categoryId: Joi.number(),
         searchName: Joi.string(),
+        minPrice: Joi.number(),
+        maxPrice: Joi.number(),
     }),
 
     deleteProduct: Joi.object({
@@ -37,6 +39,8 @@ export default {
         limit: Joi.number(),
         categoryId: Joi.number(),
         searchName: Joi.string(),
+        minPrice: Joi.number(),
+        maxPrice: Joi.number(),
     }),
 
     addProductVariant: Joi.object({
@@ -86,12 +90,16 @@ export default {
 
     updateProductStockStatus: Joi.object({
         stokcId: Joi.number().required(),
-         status: Joi.number(),
+        status: Joi.number(),
     }),
 
-    addImage : Joi.object({
+    addImage: Joi.object({
         productId: Joi.number().required(),
         variantId: Joi.number().required(),
         imageUrl: Joi.string()
-    })
+    }),
+
+    getProductVariants: Joi.object({
+        productId: Joi.number(),
+    }),
 }

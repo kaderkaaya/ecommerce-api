@@ -49,8 +49,8 @@ class ProductController {
     static async getProducts(req, res) {
         try {
             const userId = req.user.id;
-            const { page, limit, categoryId, searchName } = req.query;
-            const products = await ProductService.getProducts({ userId, page, limit, categoryId, searchName });
+            const { page, limit, categoryId, searchName, minPrice, maxPrice } = req.query;
+            const products = await ProductService.getProducts({ userId, page, limit, categoryId, searchName, minPrice, maxPrice });
             return ResponseHelper.success({ res, statusCode: 201, message: messages.PRODUCT_FETCH_SUCCESS, data: { products } });
 
         } catch (error) {
@@ -74,8 +74,8 @@ class ProductController {
     static async getProductsForUsers(req, res) {
         try {
             const userId = req.user.id;
-            const { page, limit, categoryId, searchName } = req.query;
-            const products = await ProductService.getProductsForUsers({ userId, page, limit, categoryId, searchName });
+            const { page, limit, categoryId, searchName, minPrice, maxPrice } = req.query;
+            const products = await ProductService.getProductsForUsers({ userId, page, limit, categoryId, searchName, minPrice, maxPrice });
             return ResponseHelper.success({ res, statusCode: 201, message: messages.PRODUCT_FETCH_SUCCESS, data: { products } });
 
         } catch (error) {
@@ -168,7 +168,7 @@ class ProductController {
             return ResponseHelper.sendError({ res, statusCode: error.statusCode || 500, message: error.message });
         }
     }
-    
+
     static async addImage(req, res) {
         try {
             const uploadDir = path.join(
@@ -202,6 +202,17 @@ class ProductController {
             });
         } catch (error) {
             return ResponseHelper.sendError({ res, statusCode: error.statusCode || 500, message: error.message });
+        }
+    }
+
+    static async getProductVariants(req, res) {
+        try {
+            const { productId } = req.query;
+            const product = await ProductService.getProductVariants({ productId });
+            return ResponseHelper.success({ res, statusCode: 201, message: messages.PRODUCT_FETCH_SUCCESS, data: { product } });
+        } catch (error) {
+            return ResponseHelper.sendError({ res, statusCode: error.statusCode || 500, message: error.message });
+
         }
     }
 }

@@ -21,6 +21,7 @@ const Token = sequelize.define('Token', {
     },
 
 }, {
+    tableName: "tokens",
     timestamps: true,
 });
 

@@ -50,39 +50,71 @@ class ProductData {
         return product;
     }
 
-    static async getProducts({ page, limit, searchName, categoryId }) {
+    static async getProducts({ page, limit, searchName, categoryId, minPrice, maxPrice }) {
         const offset = Number((page - 1) * limit);
         const numLim = Number(limit);
         const where = {};
+        const variantWhere = {};
         if (searchName) {
             where.name = { [Op.like]: `%${searchName}%` }
         }
         if (categoryId) {
             where.categoryId = categoryId
         }
+        if (minPrice) {
+            variantWhere.price[Op.gte] = minPrice
+        }
+        if (maxPrice) {
+            variantWhere.price[Op.lte] = maxPrice
+        }
         return await ProductModel.findAll({
             where,
             offset,
-            numLim
+            numLim,
+            include: [
+                {
+                    model: ProductVariantModel,
+                    as: 'variants',
+                    where: variantWhere,
+                    required: !!(minPrice || maxPrice)
+                }
+            ],
         })
     }
 
-    static async getProductsForUsers({ page, limit, searchName, categoryId }) {
+    static async getProductsForUsers({ page, limit, searchName, categoryId, minPrice, maxPrice }) {
         const offset = Number((page - 1) * limit);
         const numLim = Number(limit);
         const where = {
             isActive: true
         };
+        const variantWhere = {
+            variantStatus: 1,
+        }
         if (searchName) {
             where.name = { [Op.like]: `%${searchName}%` }
         }
         if (categoryId) {
             where.categoryId = categoryId
         }
+        if (minPrice) {
+            variantWhere.price[Op.gte] = minPrice
+        }
+        if (maxPrice) {
+            variantWhere.price[Op.lte] = maxPrice
+        }
         return await ProductModel.findAll({
             where,
             offset,
-            numLim
+            numLim,
+            include: [
+                {
+                    model: ProductVariantModel,
+                    as: 'variants',
+                    where: variantWhere,
+                    required: !!(minPrice || maxPrice)
+                }
+            ],
         })
     }
 
@@ -181,6 +213,20 @@ class ProductData {
             productId,
             variantId
         })
+    }
+
+    static async getProduct({ productId }) {
+        const product = await ProductModel.findOne({
+            where: { id: productId },
+            include: [
+                {
+                    model: ProductVariantModel,
+                    as: 'variants',
+                    where: productId,
+                }
+            ],
+        });
+        return { product };
     }
 
 }

@@ -6,6 +6,7 @@ import SchemaHelper from '../../../utils/schema-helper.js';
 import permissionMiddleware from '../../../utils/permission-middleware.js';
 import authenticate from '../../../utils/auth-middleware.js';
 import AuthenticateForUser from '../../../utils/auth-middleware-user.js';
+
 router.post('/create-product',
     // permissionMiddleware({ endpointName: 'create-product' }),
     authenticate,
@@ -44,10 +45,10 @@ router.get('/get-products-for-users',
     ProductController.getProductsForUsers);
 
 router.post('/add-image',
-authenticate,
-// permissionMiddleware({ endpointName: 'add-image' }),
-SchemaHelper.validateSchemaBody(ProductSchema.addImage),
-ProductController.addImage);
+    authenticate,
+    // permissionMiddleware({ endpointName: 'add-image' }),
+    SchemaHelper.validateSchemaBody(ProductSchema.addImage),
+    ProductController.addImage);
 
 router.post('/add-product-variant',
     authenticate,
@@ -68,34 +69,34 @@ router.post('/update-product-variant-status',
     ProductController.updateProductVariantStatus);
 
 router.get('/get-product-variant',
-authenticate,
-// permissionMiddleware({ endpointName: 'get-product-variant' }),
-SchemaHelper.validateSchemaQuery(ProductSchema.getProductVariant),
-ProductController.getProductVariant);
+    authenticate,
+    // permissionMiddleware({ endpointName: 'get-product-variant' }),
+    SchemaHelper.validateSchemaQuery(ProductSchema.getProductVariant),
+    ProductController.getProductVariant);
 
-// router.get('/get-product-variants',
-// authenticate,
-// // permissionMiddleware({ endpointName: 'get-product-variants' }),
-// SchemaHelper.validateSchemaQuery(ProductSchema.getProductVariants),
-// ProductController.getProductVariants);
-
- router.post('/add-product-stock',
+router.get('/get-product-variants',
 authenticate,
-// permissionMiddleware({ endpointName: 'add-product-stock' }),
-SchemaHelper.validateSchemaBody(ProductSchema.addProductStock),
-ProductController.addProductStock);
+// permissionMiddleware({ endpointName: 'get-product-variants' }),
+SchemaHelper.validateSchemaQuery(ProductSchema.getProductVariants),
+ProductController.getProductVariants);
+
+router.post('/add-product-stock',
+    authenticate,
+    // permissionMiddleware({ endpointName: 'add-product-stock' }),
+    SchemaHelper.validateSchemaBody(ProductSchema.addProductStock),
+    ProductController.addProductStock);
 
 router.post('/update-product-stock',
-authenticate,
-// permissionMiddleware({ endpointName: 'update-product-stock' }),
-SchemaHelper.validateSchemaBody(ProductSchema.updateProductStock),
-ProductController.updateProductStock);
+    authenticate,
+    // permissionMiddleware({ endpointName: 'update-product-stock' }),
+    SchemaHelper.validateSchemaBody(ProductSchema.updateProductStock),
+    ProductController.updateProductStock);
 
 router.post('/update-product-stock-status',
-authenticate,
-// permissionMiddleware({ endpointName: 'update-product-stock-status' }),
-SchemaHelper.validateSchemaBody(ProductSchema.updateProductStockStatus),
-ProductController.updateProductStockStatus);
+    authenticate,
+    // permissionMiddleware({ endpointName: 'update-product-stock-status' }),
+    SchemaHelper.validateSchemaBody(ProductSchema.updateProductStockStatus),
+    ProductController.updateProductStockStatus);
 
 // router.get('/get-product-stock-by-variant',
 // authenticate,

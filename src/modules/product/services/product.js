@@ -32,13 +32,17 @@ class ProductService {
         return product;
     }
 
-    static async getProducts({ page, limit, categoryId, searchName }) {
-        const products = await ProductData.getProducts({ page, limit, searchName, categoryId });
+    static async getProducts({ page, limit, categoryId, searchName, minPrice, maxPrice }) {
+        if (minPrice < 0) throw new ErrorHelper(Errors.PRICE_ERROR.message, Errors.PRICE_ERROR.statusCode);
+        if (maxPrice < 0) throw new ErrorHelper(Errors.PRICE_ERROR.message, Errors.PRICE_ERROR.statusCode);
+        const products = await ProductData.getProducts({ page, limit, searchName, categoryId, minPrice, maxPrice });
         return products;
     }
 
-    static async getProductsForUsers({ page, limit, categoryId, searchName }) {
-        const products = await ProductData.getProductsForUsers({ page, limit, searchName, categoryId });
+    static async getProductsForUsers({ page, limit, categoryId, searchName, minPrice, maxPrice }) {
+        if (minPrice < 0) throw new ErrorHelper(Errors.PRICE_ERROR.message, Errors.PRICE_ERROR.statusCode);
+        if (maxPrice < 0) throw new ErrorHelper(Errors.PRICE_ERROR.message, Errors.PRICE_ERROR.statusCode);
+        const products = await ProductData.getProductsForUsers({ page, limit, searchName, categoryId, minPrice, maxPrice });
         return products;
     }
 
@@ -94,6 +98,10 @@ class ProductService {
         if (!product) throw new ErrorHelper(Errors.PRODUCT_ERROR.message, Errors.PRODUCT_ERROR.statusCode);
         const img = await ProductData.addImage({ imagePath, productId, variantId });
         return img;
+    }
+
+    static async getProductVariants({ productId }) {
+        return await ProductData.getProduct({ productId });
     }
 }
 

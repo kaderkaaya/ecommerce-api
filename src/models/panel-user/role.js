@@ -26,6 +26,7 @@ const Role = sequelize.define('Role', {
         defaultValue: RoleStatus.ROLE_STATUS.ACTIVE,
     },
 }, {
+    tableName: "roles",
     timestamps: true,
 });
 

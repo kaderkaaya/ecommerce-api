@@ -21,6 +21,7 @@ const PanelUsersToken = sequelize.define('PanelUsersToken', {
     },
 
 }, {
+    tableName: "tokens",
     timestamps: true,
 });
 
