@@ -16,7 +16,7 @@ ProductVariantModel.belongsTo(ProductModel, {
 
 ProductVariantModel.hasMany(ProductStocktModel, {
     foreignKey: 'productVariantId',
-    as: 'variants'
+    as: 'stocks'
 });
 
 ProductStocktModel.belongsTo(ProductVariantModel, {
