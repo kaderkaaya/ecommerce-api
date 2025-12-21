@@ -159,7 +159,7 @@ class ProductData {
     }
 
     static async getVariantById({ productVariantId }) {
-        return await ProductStockModel.findOne({
+        return await ProductVariantModel.findOne({
             where: { id: productVariantId }
         })
     }
@@ -227,6 +227,27 @@ class ProductData {
             ],
         });
         return { product };
+    }
+
+    static async getProductStockByVariant({ productId }) {
+        const product = await ProductModel.findOne({
+            where: { id: productId },
+            include: [
+                {
+                    model: ProductVariantModel,
+                    as: 'variants',
+                    where: { productId },
+                    include: [
+                        {
+                            model: ProductStockModel,
+                            as: 'stocks',
+                            required: false
+                        }
+                    ]
+                }
+            ],
+        });
+        return product;
     }
 
 }

@@ -75,10 +75,10 @@ router.get('/get-product-variant',
     ProductController.getProductVariant);
 
 router.get('/get-product-variants',
-authenticate,
-// permissionMiddleware({ endpointName: 'get-product-variants' }),
-SchemaHelper.validateSchemaQuery(ProductSchema.getProductVariants),
-ProductController.getProductVariants);
+    authenticate,
+    // permissionMiddleware({ endpointName: 'get-product-variants' }),
+    SchemaHelper.validateSchemaQuery(ProductSchema.getProductVariants),
+    ProductController.getProductVariants);
 
 router.post('/add-product-stock',
     authenticate,
@@ -98,17 +98,11 @@ router.post('/update-product-stock-status',
     SchemaHelper.validateSchemaBody(ProductSchema.updateProductStockStatus),
     ProductController.updateProductStockStatus);
 
-// router.get('/get-product-stock-by-variant',
-// authenticate,
-// // permissionMiddleware({ endpointName: 'get-product-stock-by-variant' }),
-// SchemaHelper.validateSchemaQuery(ProductSchema.getProductStockByVariant),
-// ProductController.getProductStockByVariant);
-
-// router.get('/get-product-stocks',
-// authenticate,
-// // permissionMiddleware({ endpointName: 'get-product-stocks' }),
-// SchemaHelper.validateSchemaQuery(ProductSchema.getProductStocks),
-// ProductController.getProductStocks);
+router.get('/get-product-stock-by-variant',
+    authenticate,
+    // permissionMiddleware({ endpointName: 'get-product-stock-by-variant' }),
+    SchemaHelper.validateSchemaQuery(ProductSchema.getProductStockByVariant),
+    ProductController.getProductStockByVariant);
 
 // router.get('/get-products-top-five',
 // authenticate,

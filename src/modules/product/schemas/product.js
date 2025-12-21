@@ -102,4 +102,9 @@ export default {
     getProductVariants: Joi.object({
         productId: Joi.number(),
     }),
+
+    getProductStockByVariant: Joi.object({
+        productId: Joi.number(),
+    })
+
 }

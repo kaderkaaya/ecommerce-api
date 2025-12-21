@@ -103,6 +103,10 @@ class ProductService {
     static async getProductVariants({ productId }) {
         return await ProductData.getProduct({ productId });
     }
+
+    static async getProductStockByVariant({ productId }) {
+        return await ProductData.getProductStockByVariant({ productId });
+    }
 }
 
 export default ProductService;

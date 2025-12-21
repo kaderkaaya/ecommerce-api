@@ -215,5 +215,17 @@ class ProductController {
 
         }
     }
+
+    static async getProductStockByVariant(req, res) {
+        try {
+            const { productId } = req.query;
+            const product = await ProductService.getProductStockByVariant({ productId });
+            return ResponseHelper.success({ res, statusCode: 201, message: messages.PRODUCT_FETCH_SUCCESS, data: { product } });
+        } catch (error) {
+            return ResponseHelper.sendError({ res, statusCode: error.statusCode || 500, message: error.message });
+
+        }
+    }
+
 }
 export default ProductController;
