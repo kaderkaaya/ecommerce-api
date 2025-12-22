@@ -1,3 +1,5 @@
+import { DataTypes } from "sequelize";
+import sequelize from "../../config/config.js";
 import CART_STATUS from '../../modules/cart/constant/const.js';
 
 const Cart = sequelize.define("Cart", {
@@ -26,3 +28,5 @@ const Cart = sequelize.define("Cart", {
     tableName: "carts",
     timestamps: true
 });
+
+export default Cart;

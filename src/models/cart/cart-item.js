@@ -1,3 +1,6 @@
+import { DataTypes } from "sequelize";
+import sequelize from "../../config/config.js";
+
 const CartItem = sequelize.define("CartItem", {
   id: {
     type: DataTypes.INTEGER,
@@ -29,3 +32,4 @@ const CartItem = sequelize.define("CartItem", {
   tableName: "cart_items",
   timestamps: true
 });
+export default CartItem;

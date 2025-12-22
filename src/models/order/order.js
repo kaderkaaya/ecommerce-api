@@ -1,3 +1,5 @@
+import { DataTypes } from "sequelize";
+import sequelize from "../../config/config.js";
 import ORDER_STATUS from '../../modules/order/constant/const.js';
 
 const Order = sequelize.define("Order", {
@@ -34,3 +36,4 @@ const Order = sequelize.define("Order", {
     tableName: "orders",
     timestamps: true
 });
+ export default Order;

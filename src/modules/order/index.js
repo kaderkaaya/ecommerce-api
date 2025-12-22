@@ -9,7 +9,7 @@ const app = express();
 app.use(express.json());
 app.use(helmet());
 
-app.use('/order', OrderRouter);
+// app.use('/order', OrderRouter);
 
 const startServer = async () => {
     try {
