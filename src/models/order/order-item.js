@@ -1,11 +1,11 @@
-const CartItem = sequelize.define("CartItem", {
+const OrderItem = sequelize.define("OrderItem", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true
   },
 
-  cartId: {
+  orderId: {
     type: DataTypes.INTEGER,
     allowNull: false
   },
@@ -20,12 +20,12 @@ const CartItem = sequelize.define("CartItem", {
     allowNull: false
   },
 
-  priceSnapshot: {
+  price: {
     type: DataTypes.INTEGER,
     allowNull: false
   }
 
 }, {
-  tableName: "cart_items",
+  tableName: "order_items",
   timestamps: true
 });
