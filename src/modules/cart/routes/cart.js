@@ -5,9 +5,9 @@ import CartSchema from '../schemas/cart.js';
 import SchemaHelper from '../../../utils/schema-helper.js';
 import AuthenticateForUser from '../../../utils/auth-middleware-user.js';
 
-// router.post('/create-cart',
-//     SchemaHelper.validateSchemaBody(CartSchema.createCart),
-//     CartController.createCart);
+router.post('/create-cart',
+    SchemaHelper.validateSchemaBody(CartSchema.createCart),
+    CartController.createCart);
 
 
 export default router;

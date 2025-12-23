@@ -13,6 +13,10 @@ const Cart = sequelize.define("Cart", {
         type: DataTypes.INTEGER,
         allowNull: true
     },
+    guestId: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
 
     status: {
         type: DataTypes.INTEGER,

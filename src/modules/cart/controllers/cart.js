@@ -1,5 +1,17 @@
 import CartService from '../services/cart.js';
+import ResponseHelper from '../../../utils/response-handler.js';
 class CartController {
+    static async createCart(req, res) {
+        try {
+            const { userId } = req.body;
+            const cart = await CartService.createCart({ userId });
+            return ResponseHelper.success({ res, statusCode: 201, message: 'YES', data: { cart } });
+
+        } catch (error) {
+            return ResponseHelper.sendError({ res, statusCode: error.statusCode || 500, message: error.message });
+        }
+
+    }
 
 }
 export default CartController;
