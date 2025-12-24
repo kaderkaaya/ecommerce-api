@@ -14,5 +14,10 @@ router.post('/add-cart-items',
     SchemaHelper.validateSchemaBody(CartSchema.addCartItems),
     CartController.addCartItems);
 
+router.post('/remove-cart-items',
+    AuthenticateForUser,
+    SchemaHelper.validateSchemaBody(CartSchema.removeCartItems),
+    CartController.removeCartItems);
+
 
 export default router;

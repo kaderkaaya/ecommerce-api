@@ -7,8 +7,14 @@ export default {
     }),
 
     addCartItems: Joi.object({
-        cartId : Joi.number().required(),
-        productVariantId:Joi.number().required(),
-        quantity :Joi.number().required(),
+        cartId: Joi.number().required(),
+        productVariantId: Joi.number().required(),
+        quantity: Joi.number().required(),
+    }),
+
+    removeCartItems: Joi.object({
+        cartId: Joi.number().required(),
+        productVariantId: Joi.number().required(),
+        quantity: Joi.number().required(),
     }),
 }

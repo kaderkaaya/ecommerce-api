@@ -286,6 +286,27 @@ class ProductData {
         );
     }
 
-
+    static async updateProductStockAfterRemove({
+        removeQty,
+        productVariantId,
+        transaction
+    }) {
+        console.log('`reserved - ${removeQty}`',`reserved - ${removeQty}`);
+        
+       return await ProductStockModel.update(
+            {
+                reserved: sequelize.literal(`reserved - ${removeQty}`)
+            },
+            {
+                where: {
+                    productVariantId,
+                    reserved: {
+                        [Op.gte]: removeQty
+                    }
+                },
+                transaction
+            }
+        );
+    }
 }
 export default ProductData;

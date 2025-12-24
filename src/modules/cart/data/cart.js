@@ -63,5 +63,16 @@ class CartData {
         })
     }
 
+    static async removeCartItemss({
+        cartItemsId,
+        transaction }) {
+        return await CartItemSModel.destroy({
+            where: {
+                    cartItemsId,
+                },
+                transaction
+        })
+    }
+
 }
 export default CartData;
