@@ -9,5 +9,10 @@ router.post('/create-cart',
     SchemaHelper.validateSchemaBody(CartSchema.createCart),
     CartController.createCart);
 
+router.post('/add-cart-items',
+    AuthenticateForUser,
+    SchemaHelper.validateSchemaBody(CartSchema.addCartItems),
+    CartController.addCartItems);
+
 
 export default router;

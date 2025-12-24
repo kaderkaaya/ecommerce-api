@@ -34,3 +34,4 @@ ProductImageModel.belongsTo(ProductModel, {
     foreignKey: 'productId',
     as: 'product'
 });
+console.log(ProductModel.associations);

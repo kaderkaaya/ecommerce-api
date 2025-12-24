@@ -1,5 +1,6 @@
 import CartModel from '../../../models/cart/cart.js';
 import CartItemSModel from '../../../models/cart/cart-item.js';
+
 class CartData {
     static async createCart({ userId }) {
         return await CartModel.create({
@@ -23,6 +24,44 @@ class CartData {
         return cart;
     }
 
+    static async getCartById({ cartId, transaction }) {
+        const cart = await CartModel.findOne({
+            where: {
+                id: cartId,
+                status: 0,
+            },
+            transaction
+        })
+        return cart;
+    }
+
+    static async getCartItem({ cartId, productVariantId, transaction, lock }) {
+        return await CartItemSModel.findOne({
+            where: {
+                cartId,
+                productVariantId
+            },
+            transaction,
+            lock
+        })
+    }
+
+    static async addCartItems({
+        cartId,
+        productVariantId,
+        quantity,
+        priceSnapshot,
+        transaction
+    }) {
+        return await CartItemSModel.create({
+            cartId,
+            productVariantId,
+            quantity,
+            priceSnapshot,
+        }, {
+            transaction
+        })
+    }
 
 }
 export default CartData;

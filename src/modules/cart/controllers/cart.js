@@ -10,8 +10,21 @@ class CartController {
         } catch (error) {
             return ResponseHelper.sendError({ res, statusCode: error.statusCode || 500, message: error.message });
         }
-
     }
+    static async addCartItems(req, res) {
+        try {
+            const userId = req.user.id;
+            const { cartId, productVariantId, quantity } = req.body;
+            const cartItems = await CartService.addCartItems({ userId, cartId, productVariantId, quantity });
+            return ResponseHelper.success({ res, statusCode: 201, message: 'YES', data: { cartItems } });
+
+        } catch (error) {
+            console.log('error',error);
+            
+            return ResponseHelper.sendError({ res, statusCode: error.statusCode || 500, message: error.message });
+        }
+    }
+
 
 }
 export default CartController;

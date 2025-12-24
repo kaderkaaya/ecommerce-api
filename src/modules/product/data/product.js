@@ -3,7 +3,7 @@ import { Op } from 'sequelize';
 import ProductVariantModel from '../../../models/product/product-variant.js';
 import ProductStockModel from '../../../models/product/product-stock.js';
 import ProductImageModel from '../../../models/product/product-image.js';
-
+import sequelize from "../../../config/config.js";
 class ProductData {
     static async createProduct({ name, description, isActive, slug, categoryId }) {
         const product = await ProductModel.create({
@@ -249,6 +249,43 @@ class ProductData {
         });
         return product;
     }
+
+    static async getProductStockByVariantId({ productVariantId }) {
+        const product = await ProductStockModel.findOne({
+            where: productVariantId
+        });
+        return product;
+    }
+
+    static async getVariantByIdForCart({ productVariantId, transaction, lock }) {
+        return await ProductVariantModel.findOne({
+            where: { id: productVariantId },
+            transaction,
+            lock
+        })
+    }
+
+    static async updateProductStockForCart({
+        productVariantId,
+        quantity,
+        transaction
+    }) {
+        return ProductStockModel.update(
+            {
+                reserved: sequelize.literal(`reserved + ${quantity}`)
+            },
+            {
+                where: {
+                    productVariantId,
+                    quantity: {
+                        [Op.gte]: sequelize.literal(`reserved + ${quantity}`)
+                    }
+                },
+                transaction
+            }
+        );
+    }
+
 
 }
 export default ProductData;
