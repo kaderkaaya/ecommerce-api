@@ -68,9 +68,9 @@ class CartData {
         transaction }) {
         return await CartItemSModel.destroy({
             where: {
-                    cartItemsId,
-                },
-                transaction
+                id: cartItemsId,
+            },
+            transaction
         })
     }
 

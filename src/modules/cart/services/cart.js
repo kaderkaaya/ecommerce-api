@@ -96,7 +96,6 @@ class CartService {
                 productVariantId,
                 transaction: t
             });
-           console.log('updatedRows',updatedRows);   
             if (updatedRows === 0) throw new ErrorHelper(Errors.STOCK_ERROR.message, Errors.STOCK_ERROR.statusCode);
             await CartData.removeCartItemss({
                 cartItemsId: cartItem.id,

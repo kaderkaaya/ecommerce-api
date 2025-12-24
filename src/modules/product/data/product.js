@@ -291,8 +291,6 @@ class ProductData {
         productVariantId,
         transaction
     }) {
-        console.log('`reserved - ${removeQty}`',`reserved - ${removeQty}`);
-        
        return await ProductStockModel.update(
             {
                 reserved: sequelize.literal(`reserved - ${removeQty}`)
