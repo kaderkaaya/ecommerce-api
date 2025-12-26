@@ -19,5 +19,10 @@ router.post('/remove-cart-items',
     SchemaHelper.validateSchemaBody(CartSchema.removeCartItems),
     CartController.removeCartItems);
 
+router.post('/update-cart-item-quantity',
+    AuthenticateForUser,
+    SchemaHelper.validateSchemaBody(CartSchema.updateCartItemQuantity),
+    CartController.updateCartItemQuantity);
+
 
 export default router;

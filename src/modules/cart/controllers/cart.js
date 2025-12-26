@@ -25,7 +25,7 @@ class CartController {
         }
     }
 
-        static async removeCartItems(req, res) {
+    static async removeCartItems(req, res) {
         try {
             const userId = req.user.id;
             const { cartId, productVariantId, quantity } = req.body;
@@ -36,7 +36,21 @@ class CartController {
             return ResponseHelper.sendError({ res, statusCode: error.statusCode || 500, message: error.message });
         }
     }
-    
+
+    static async updateCartItemQuantity(req, res) {
+        try {
+            const userId = req.user.id;
+            const { cartId, productVariantId, newQuantity } = req.body;
+            const cartItems = await CartService.updateCartItemQuantity({ userId, cartId, productVariantId, newQuantity });
+            return ResponseHelper.success({ res, statusCode: 201, message: 'YES', data: { cartItems } });
+
+        } catch (error) {
+            console.log('error',error);
+            return ResponseHelper.sendError({ res, statusCode: error.statusCode || 500, message: error.message });
+        }
+    }
+
+
 
 
 }

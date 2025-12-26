@@ -291,7 +291,7 @@ class ProductData {
         productVariantId,
         transaction
     }) {
-       return await ProductStockModel.update(
+        return await ProductStockModel.update(
             {
                 reserved: sequelize.literal(`reserved - ${removeQty}`)
             },
@@ -306,5 +306,48 @@ class ProductData {
             }
         );
     }
+
+    static async increaseStockQuantity({
+        transaction,
+        delta,
+        productVariantId
+    }) {
+        return await ProductStockModel.update(
+            {
+                reserved: sequelize.literal(`reserved + ${delta}`)
+            },
+            {
+                where: {
+                    productVariantId,
+                    quantity: {
+                        [Op.gte]: sequelize.literal(`reserved + ${delta}`)
+                    }
+                },
+                transaction
+            }
+        );
+    }
+
+    static async decreaseStockQuantity({
+        transaction,
+        releaseQty,
+        productVariantId
+    }) {
+        return await ProductStockModel.update(
+            {
+                reserved: sequelize.literal(`reserved - ${releaseQty}`)
+            },
+            {
+                where: {
+                    productVariantId,
+                    reserved: {
+                        [Op.gte]: releaseQty,
+                    }
+                },
+                transaction
+            }
+        );
+    }
+
 }
 export default ProductData;

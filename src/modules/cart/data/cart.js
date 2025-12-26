@@ -74,5 +74,13 @@ class CartData {
         })
     }
 
+    static async IncreaseCartItem({
+                 transaction: t,
+                 delta,
+                 cartItemId
+              }){
+                
+              }
+
 }
 export default CartData;

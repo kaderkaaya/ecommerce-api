@@ -81,7 +81,6 @@ class CartService {
                 transaction: t
             });
             if (!cart) throw new ErrorHelper(Errors.CART_ERROR.message, Errors.CART_ERROR.statusCode);
-
             const cartItem = await CartData.getCartItem({
                 cartId,
                 productVariantId,
@@ -102,8 +101,82 @@ class CartService {
                 transaction: t
             })
             return { success: true };
-        })
+        });
+    }
 
+    static async updateCartItemQuantity({ userId, cartId, productVariantId, newQuantity }) {
+        return await sequelize.transaction(async (t) => {
+            if (newQuantity < 0) throw new ErrorHelper(Errors.QUANTITY_ERROR.message, Errors.QUANTITY_ERROR.statusCode)
+            const cart = await CartData.getCartById({
+                cartId,
+                transaction: t
+            });
+            if (!cart) throw new ErrorHelper(Errors.CART_ERROR.message, Errors.CART_ERROR.statusCode);
+            const cartItem = await CartData.getCartItem({
+                cartId,
+                productVariantId,
+                transaction: t,
+                lock: t.LOCK.UPDATE
+            });
+            if (!cartItem) throw new ErrorHelper(Errors.CART_ERROR.message, Errors.CART_ERROR.statusCode);
+            const oldQuantity = cartItem.quantity;
+            const delta = newQuantity - oldQuantity;
+
+            if (newQuantity === 0) {
+                const releaseQty = Math.abs(oldQuantity)
+                const updatedRows = await ProductData.decreaseStockQuantity({
+                    transaction: t,
+                    releaseQty,
+                    productVariantId
+                });
+                await CartData.removeCartItemss({
+                    cartItemsId: cartItem.id,
+                    transaction: t
+                })
+                if (updatedRows === 0) {
+                    throw new ErrorHelper(Errors.STOCK_CONFLICT.message, Errors.STOCK_CONFLICT.statusCode);
+                }
+                return { success: true }
+            }
+            if (delta === 0) {
+                return {
+                    cartId,
+                    productVariantId,
+                    oldQuantity,
+                    newQuantity
+                };
+            }
+            if (delta > 0) {
+                const updatedRows = await ProductData.increaseStockQuantity({
+                    transaction: t,
+                    delta,
+                    productVariantId
+                });
+                if (updatedRows === 0) {
+                    throw new ErrorHelper(Errors.STOCK_CONFLICT.message, Errors.STOCK_CONFLICT.statusCode);
+                }
+            };
+            if (delta < 0) {
+                const releaseQty = Math.abs(delta)
+                const updatedRows = await ProductData.decreaseStockQuantity({
+                    transaction: t,
+                    releaseQty,
+                    productVariantId
+                });
+                if (updatedRows === 0) {
+                    throw new ErrorHelper(Errors.STOCK_CONFLICT.message, Errors.STOCK_CONFLICT.statusCode);
+                }
+            }
+            cartItem.quantity = newQuantity;
+            await cartItem.save({ transaction: t });
+
+            return {
+                cartId,
+                productVariantId,
+                oldQuantity,
+                newQuantity
+            };
+        });
     }
 
 }
