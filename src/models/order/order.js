@@ -16,7 +16,7 @@ const Order = sequelize.define("Order", {
 
     totalAmount: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: true
     },
 
     status: {

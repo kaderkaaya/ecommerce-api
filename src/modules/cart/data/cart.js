@@ -1,5 +1,6 @@
 import CartModel from '../../../models/cart/cart.js';
 import CartItemSModel from '../../../models/cart/cart-item.js';
+import CART_STATUS from '../constant/const.js';
 
 class CartData {
     static async createCart({ userId }) {
@@ -34,6 +35,21 @@ class CartData {
         })
         return cart;
     }
+    static async getCartByIdWithLock({
+        cartId,
+        transaction,
+        lock
+    }) {
+        const cart = await CartModel.findOne({
+            where: {
+                id: cartId,
+                status: 0,
+            },
+            transaction,
+            lock
+        })
+        return cart;
+    }
 
     static async getCartItem({ cartId, productVariantId, transaction, lock }) {
         return await CartItemSModel.findOne({
@@ -45,7 +61,19 @@ class CartData {
             lock
         })
     }
-
+    static async getCartItems({
+        cartId,
+        transaction,
+        lock
+    }) {
+        return await CartItemSModel.findAll({
+            where: {
+                cartId,
+            },
+            transaction,
+            lock
+        })
+    }
     static async addCartItems({
         cartId,
         productVariantId,
@@ -73,14 +101,12 @@ class CartData {
             transaction
         })
     }
-
-    static async IncreaseCartItem({
-                 transaction: t,
-                 delta,
-                 cartItemId
-              }){
-                
-              }
+    static async updateCartStatus({ cartId }) {
+        return await CartModel.update(
+            { status: CART_STATUS.CART_STATUS.ORDERED },
+            { where: { id: cartId } }
+        )
+    }
 
 }
 export default CartData;

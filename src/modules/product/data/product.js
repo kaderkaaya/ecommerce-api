@@ -349,5 +349,28 @@ class ProductData {
         );
     }
 
+    static async updateProductStockForOrder({
+        productVariantId,
+        quantity,
+        transaction
+    }) {
+        return ProductStockModel.update(
+            {
+                reserved: sequelize.literal(`reserved - ${quantity}`),
+                quantity: sequelize.literal(`quantity - ${quantity}`)
+            },
+            {
+                where: {
+                    productVariantId,
+                    quantity: {
+                        [Op.gte]: quantity
+                    }
+                },
+                transaction
+            }
+        );
+    }
+
+
 }
 export default ProductData;

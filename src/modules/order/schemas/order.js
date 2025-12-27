@@ -4,7 +4,12 @@ export default {
         cartId: Joi.number().required(),
         userId: Joi.number().optional(),
         paymentMethod: Joi.string().optional(),
-        addressId: Joi.number().optional()
+        address: Joi.object({
+            city: Joi.string().required(),
+            district: Joi.string().required(),
+            fullAddress: Joi.string().required(),
+            phone: Joi.string().required(),
+        }).required()
     }),
 
 }
