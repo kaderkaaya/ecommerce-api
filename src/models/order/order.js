@@ -11,7 +11,7 @@ const Order = sequelize.define("Order", {
 
     userId: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: true
     },
 
     totalAmount: {
@@ -36,4 +36,4 @@ const Order = sequelize.define("Order", {
     tableName: "orders",
     timestamps: true
 });
- export default Order;
+export default Order;

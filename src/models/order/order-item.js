@@ -23,7 +23,7 @@ const OrderItem = sequelize.define("OrderItem", {
     allowNull: false
   },
 
-  price: {
+  priceSnapshot: {
     type: DataTypes.INTEGER,
     allowNull: false
   }
@@ -32,4 +32,5 @@ const OrderItem = sequelize.define("OrderItem", {
   tableName: "order_items",
   timestamps: true
 });
+
 export default OrderItem;
