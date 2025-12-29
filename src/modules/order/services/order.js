@@ -4,7 +4,7 @@ import ProductData from '../../product/data/product.js';
 import sequelize from '../../../config/config.js';
 import ErrorHelper from '../../../utils/error-helper.js';
 import Errors from '../constant/error.js';
-import order from '../schemas/order.js';
+import ORDER_STATUS from '../constant/const.js';
 
 class OrderService {
     static async createOrder({ userId, cartId, address, guestId }) {
@@ -41,6 +41,7 @@ class OrderService {
                     productVariantId: item.dataValues.productVariantId,
                     transaction: t,
                 });
+
                 if (updatedRows === 0) throw new ErrorHelper(Errors.STOCK_ERROR.message, Errors.STOCK_ERROR.statusCode);
 
             }));
@@ -48,7 +49,41 @@ class OrderService {
             await CartData.updateCartStatus({ cartId, transaction: t, })
             return order;
         })
+    }
 
+    static async mockPay({ orderId, paymentMethod, result }) {
+        return await sequelize.transaction(async (t) => {
+            const order = await OrderData.getOrderByIdWithLock({
+                orderId,
+                transaction: t,
+                lock: t.LOCK.UPDATE
+            });
+            if (order.dataValues.status !== ORDER_STATUS.ORDER_STATUS.CREATED) throw new ErrorHelper(Errors.ORDER_ERROR.message, Errors.ORDER_ERROR.statusCode)
+            if (result === 'success') {
+                await OrderData.updateOrderStatusSuccess({ orderId, transaction: t });
+                await OrderData.addPaymentMethot({ orderId, paymentMethod, transaction: t });
+            }
+            if (result === 'fail') {
+                const orderItems = await OrderData.getOrderItems({ orderId, transaction: t, lock: t.LOCK.UPDATE });
+                for (const item of orderItems) {
+                    const [updatedRows] = await ProductData.updateProductStockForOrderFail({
+                        quantity: item.dataValues.quantity,
+                        productVariantId: item.dataValues.productVariantId,
+                        transaction: t,
+                    });
+                    if (updatedRows === 0) throw new ErrorHelper(Errors.STOCK_ERROR.message, Errors.STOCK_ERROR.statusCode);
+
+                    await OrderData.updateOrderStatusFail({ orderId, transaction: t });
+
+                }
+
+            }
+            else {
+                throw new ErrorHelper(Errors.FAILED.message, Errors.FAILED.statusCode)
+            }
+
+
+        })
     }
 }
 export default OrderService;

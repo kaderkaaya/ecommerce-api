@@ -19,5 +19,13 @@ export default {
     QUANTITY_ERROR: {
         statusCode: 805,
         message: 'The amount cannot be less than zero.',
+    },
+    ORDER_ERROR: {
+        statusCode: 806,
+        message: 'Order Error',
+    },
+    FAILED: {
+        statusCode: 807,
+        message: 'An unknown error occurred',
     }
 }

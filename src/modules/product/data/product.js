@@ -354,21 +354,40 @@ class ProductData {
         quantity,
         transaction
     }) {
+        const delta = Number(quantity)
         return ProductStockModel.update(
             {
-                reserved: sequelize.literal(`reserved - ${quantity}`),
-                quantity: sequelize.literal(`quantity - ${quantity}`)
+                reserved: sequelize.literal(`reserved - ${delta}`),
+                quantity: sequelize.literal(`quantity - ${delta}`)
             },
             {
                 where: {
                     productVariantId,
-                    quantity: {
+                    reserved: {
                         [Op.gte]: quantity
                     }
                 },
                 transaction
             }
         );
+    }
+
+    static async updateProductStockForOrderFail({
+        quantity,
+        productVariantId,
+        transaction,
+    }) {
+        return ProductStockModel.update(
+            {
+                reserved: sequelize.literal(`reserved + ${quantity}`),
+                quantity: sequelize.literal(`quantity + ${quantity}`)
+            }, {
+            where: {
+                productVariantId,
+            },
+            transaction
+        }
+        )
     }
 
 
