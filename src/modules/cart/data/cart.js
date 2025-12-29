@@ -101,10 +101,13 @@ class CartData {
             transaction
         })
     }
-    static async updateCartStatus({ cartId }) {
+    static async updateCartStatus({ cartId, transaction }) {
         return await CartModel.update(
             { status: CART_STATUS.CART_STATUS.ORDERED },
-            { where: { id: cartId } }
+            {
+                where: { id: cartId },
+                transaction
+            },
         )
     }
 

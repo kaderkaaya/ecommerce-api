@@ -29,21 +29,28 @@ class OrderData {
         productVariantId,
         quantity,
         priceSnapshot,
+        transaction
     }) {
         return await OrderItemsModel.create({
             orderId,
             productVariantId,
             quantity,
             priceSnapshot,
-        })
+        },
+            {
+                transaction
+            })
     }
 
-    static async addTotalAmount({ orderId, totalAmount }) {
+    static async addTotalAmount({ orderId, totalAmount, transaction }) {
         return await OrderModel.update(
             { totalAmount },
-            { where: { id: orderId } }
+            {
+                where: { id: orderId },
+                transaction
+            }
         );
-
     }
+
 }
 export default OrderData;

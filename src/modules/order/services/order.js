@@ -28,14 +28,12 @@ class OrderService {
             await Promise.all(cartItems.map(async item => {
                 ProductAmount = item.dataValues.quantity * item.dataValues.priceSnapshot;
                 totalAmount += ProductAmount;
-                console.log('ProductAmount', ProductAmount);
-                console.log('totalAmount', totalAmount);
-
                 await OrderData.createOrderItems({
                     orderId: order.dataValues.id,
                     productVariantId: item.dataValues.productVariantId,
                     quantity: item.dataValues.quantity,
-                    priceSnapshot: item.dataValues.priceSnapshot
+                    priceSnapshot: item.dataValues.priceSnapshot,
+                    transaction: t,
                 });
 
                 const [updatedRows] = await ProductData.updateProductStockForOrder({
@@ -46,10 +44,8 @@ class OrderService {
                 if (updatedRows === 0) throw new ErrorHelper(Errors.STOCK_ERROR.message, Errors.STOCK_ERROR.statusCode);
 
             }));
-            console.log('ProductAmount', totalAmount);
-
-            await OrderData.addTotalAmount({ orderId: order.dataValues.id, totalAmount });
-            await CartData.updateCartStatus({ cartId })
+            await OrderData.addTotalAmount({ orderId: order.dataValues.id, totalAmount, transaction: t, });
+            await CartData.updateCartStatus({ cartId, transaction: t, })
             return order;
         })
 
