@@ -2,16 +2,26 @@ import OrderModel from '../../../models/order/order.js';
 import OrderItemsModel from '../../../models/order/order-item.js';
 
 class OrderData {
-    static async createOrder({ userId, cartId, paymentMethod, address, totalAmount, transaction }) {
+    static async createOrder({ userId, cartId, address, totalAmount, transaction, guestId }) {
+        if (guestId) {
+            return await OrderModel.create({
+                guestId,
+                cartId,
+                addressSnapshot: address,
+                totalAmount
+            }, {
+                transaction
+            });
+        }
         return await OrderModel.create({
             userId,
             cartId,
-            paymentMethod,
             addressSnapshot: address,
             totalAmount
         }, {
             transaction
         });
+
     }
 
     static async createOrderItems({

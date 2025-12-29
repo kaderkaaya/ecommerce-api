@@ -10,17 +10,14 @@ router.post('/create-cart',
     CartController.createCart);
 
 router.post('/add-cart-items',
-    AuthenticateForUser,
     SchemaHelper.validateSchemaBody(CartSchema.addCartItems),
     CartController.addCartItems);
 
 router.post('/remove-cart-items',
-    AuthenticateForUser,
     SchemaHelper.validateSchemaBody(CartSchema.removeCartItems),
     CartController.removeCartItems);
 
 router.post('/update-cart-item-quantity',
-    AuthenticateForUser,
     SchemaHelper.validateSchemaBody(CartSchema.updateCartItemQuantity),
     CartController.updateCartItemQuantity);
 

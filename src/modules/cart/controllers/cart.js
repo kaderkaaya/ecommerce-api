@@ -15,9 +15,9 @@ class CartController {
 
     static async addCartItems(req, res) {
         try {
-            const userId = req.user.id;
+            // const userId = req.user.id;
             const { cartId, productVariantId, quantity } = req.body;
-            const cartItems = await CartService.addCartItems({ userId, cartId, productVariantId, quantity });
+            const cartItems = await CartService.addCartItems({ cartId, productVariantId, quantity });
             return ResponseHelper.success({ res, statusCode: 201, message: 'YES', data: { cartItems } });
 
         } catch (error) {
@@ -27,9 +27,9 @@ class CartController {
 
     static async removeCartItems(req, res) {
         try {
-            const userId = req.user.id;
+            // const userId = req.user.id;
             const { cartId, productVariantId, quantity } = req.body;
-            const cartItems = await CartService.removeCartItems({ userId, cartId, productVariantId, quantity });
+            const cartItems = await CartService.removeCartItems({ cartId, productVariantId, quantity });
             return ResponseHelper.success({ res, statusCode: 201, message: 'YES', data: { cartItems } });
 
         } catch (error) {
@@ -39,13 +39,13 @@ class CartController {
 
     static async updateCartItemQuantity(req, res) {
         try {
-            const userId = req.user.id;
+            // const userId = req.user.id;
             const { cartId, productVariantId, newQuantity } = req.body;
-            const cartItems = await CartService.updateCartItemQuantity({ userId, cartId, productVariantId, newQuantity });
+            const cartItems = await CartService.updateCartItemQuantity({ cartId, productVariantId, newQuantity });
             return ResponseHelper.success({ res, statusCode: 201, message: 'YES', data: { cartItems } });
 
         } catch (error) {
-            console.log('error',error);
+            console.log('error', error);
             return ResponseHelper.sendError({ res, statusCode: error.statusCode || 500, message: error.message });
         }
     }

@@ -9,14 +9,14 @@ import Errors from '../constant/error.js';
 class CartService {
 
     static async createCart({ userId }) {
-        const activeCart = await CartData.getActiveCart({ userId });
-        if (activeCart) {
-            throw new ErrorHelper(Errors.CART_ERROR.message, Errors.CART_ERROR.statusCode);
-        }
         if (!userId) {
             const guestId = uuidv4();
             const cart = await CartData.createCartForGuest({ guestId });
             return cart
+        }
+        const activeCart = await CartData.getActiveCart({ userId });
+        if (activeCart) {
+            throw new ErrorHelper(Errors.CART_ERROR.message, Errors.CART_ERROR.statusCode);
         }
         const cart = await CartData.createCart({ userId });
         return cart;
@@ -28,7 +28,7 @@ class CartService {
     //atomik bir yapi kullandik ve ayrica locking yaparak
     //lock süresini update kisminda kisa sürede alindi.
     //stok yetersizse updatedrows===0 oldugunda direk olarak hata verdik.
-    static async addCartItems({ userId, cartId, productVariantId, quantity }) {
+    static async addCartItems({ cartId, productVariantId, quantity }) {
         return await sequelize.transaction(async (t) => {
             const cart = await CartData.getCartById({
                 cartId,
@@ -74,7 +74,7 @@ class CartService {
         })
     }
 
-    static async removeCartItems({ userId, cartId, productVariantId }) {
+    static async removeCartItems({ cartId, productVariantId }) {
         return await sequelize.transaction(async (t) => {
             const cart = await CartData.getCartById({
                 cartId,
@@ -104,7 +104,7 @@ class CartService {
         });
     }
 
-    static async updateCartItemQuantity({ userId, cartId, productVariantId, newQuantity }) {
+    static async updateCartItemQuantity({ cartId, productVariantId, newQuantity }) {
         return await sequelize.transaction(async (t) => {
             if (newQuantity < 0) throw new ErrorHelper(Errors.QUANTITY_ERROR.message, Errors.QUANTITY_ERROR.statusCode)
             const cart = await CartData.getCartById({

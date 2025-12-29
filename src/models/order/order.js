@@ -21,7 +21,7 @@ const Order = sequelize.define("Order", {
 
     status: {
         type: DataTypes.INTEGER,
-        defaultValue: ORDER_STATUS.ORDER_STATUS.PENDING,
+        defaultValue: ORDER_STATUS.ORDER_STATUS.CREATED,
     },
 
     paymentMethod: {

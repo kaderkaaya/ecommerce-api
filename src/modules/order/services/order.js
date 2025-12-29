@@ -7,7 +7,7 @@ import Errors from '../constant/error.js';
 import order from '../schemas/order.js';
 
 class OrderService {
-    static async createOrder({ userId, cartId, paymentMethod, address }) {
+    static async createOrder({ userId, cartId, address, guestId }) {
         return await sequelize.transaction(async (t) => {
             const cart = await CartData.getCartByIdWithLock({
                 cartId,
@@ -20,14 +20,16 @@ class OrderService {
                 transaction: t,
                 lock: t.LOCK.UPDATE
             });
-
             let totalAmount = 0;
             let ProductAmount = 0;
-            const order = await OrderData.createOrder({ userId, cartId, paymentMethod, address, transaction: t });
+
+            const order = await OrderData.createOrder({ userId, cartId, address, transaction: t, guestId })
 
             await Promise.all(cartItems.map(async item => {
                 ProductAmount = item.dataValues.quantity * item.dataValues.priceSnapshot;
                 totalAmount += ProductAmount;
+                console.log('ProductAmount', ProductAmount);
+                console.log('totalAmount', totalAmount);
 
                 await OrderData.createOrderItems({
                     orderId: order.dataValues.id,
@@ -44,6 +46,8 @@ class OrderService {
                 if (updatedRows === 0) throw new ErrorHelper(Errors.STOCK_ERROR.message, Errors.STOCK_ERROR.statusCode);
 
             }));
+            console.log('ProductAmount', totalAmount);
+
             await OrderData.addTotalAmount({ orderId: order.dataValues.id, totalAmount });
             await CartData.updateCartStatus({ cartId })
             return order;

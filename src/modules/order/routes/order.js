@@ -9,5 +9,8 @@ router.post('/create-order',
     SchemaHelper.validateSchemaBody(OrderSchema.createOrder),
     OrderController.createOrder);
 
+// router.post('/mock-pay',
+//     SchemaHelper.validateSchemaBody(OrderSchema.mockPay),
+//     OrderController.mockPay);
 
 export default router;
