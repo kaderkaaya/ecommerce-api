@@ -57,7 +57,7 @@ class OrderService {
                 orderId,
                 transaction: t,
                 lock: t.LOCK.UPDATE
-            }); 
+            });
             if (order.dataValues.status === ORDER_STATUS.ORDER_STATUS.PAID) {
                 throw new ErrorHelper(
                     Errors.IDEMPOTENCY_PAID.message,
@@ -71,7 +71,7 @@ class OrderService {
                 await OrderData.updateOrderStatusSuccess({ orderId, transaction: t });
                 await OrderData.addPaymentMethot({ orderId, paymentMethod, transaction: t });
             }
-            if (result === 'fail') {
+            else if (result === 'fail') {
                 const orderItems = await OrderData.getOrderItems({ orderId, transaction: t, lock: t.LOCK.UPDATE });
                 for (const item of orderItems) {
                     const [updatedRows] = await ProductData.updateProductStockForOrderFail({
@@ -80,17 +80,12 @@ class OrderService {
                         transaction: t,
                     });
                     if (updatedRows === 0) throw new ErrorHelper(Errors.STOCK_ERROR.message, Errors.STOCK_ERROR.statusCode);
-
-                    await OrderData.updateOrderStatusFail({ orderId, transaction: t });
-
                 }
-
+                await OrderData.updateOrderStatusFail({ orderId, transaction: t });
             }
             else {
                 throw new ErrorHelper(Errors.FAILED.message, Errors.FAILED.statusCode)
             }
-
-
         })
     }
 }

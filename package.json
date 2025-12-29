@@ -15,7 +15,7 @@
   "dependencies": {
     "aws-sdk": "^2.1692.0",
     "bcrypt": "^6.0.0",
-    "bullmq": "^5.65.1",
+    "bullmq": "^5.66.4",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
