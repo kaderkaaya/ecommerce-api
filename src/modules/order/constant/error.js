@@ -27,5 +27,13 @@ export default {
     FAILED: {
         statusCode: 807,
         message: 'An unknown error occurred',
+    },
+    IDEMPOTENCY_PAID: {
+        statusCode: 808,
+        message: 'payment received',
+    },
+    IDEMPOTENCY_CANCELED: {
+        statusCode: 809,
+        message: 'payment canceled.',
     }
 }

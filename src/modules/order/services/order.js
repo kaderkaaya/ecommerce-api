@@ -57,7 +57,15 @@ class OrderService {
                 orderId,
                 transaction: t,
                 lock: t.LOCK.UPDATE
-            });
+            }); 
+            if (order.dataValues.status === ORDER_STATUS.ORDER_STATUS.PAID) {
+                throw new ErrorHelper(
+                    Errors.IDEMPOTENCY_PAID.message,
+                    Errors.IDEMPOTENCY_PAID.statusCode,
+                    { order }
+                )
+            }
+            if (order.dataValues.status === ORDER_STATUS.ORDER_STATUS.CANCELED) throw new ErrorHelper(Errors.IDEMPOTENCY_CANCELED.message, Errors.IDEMPOTENCY_CANCELED.statusCode)
             if (order.dataValues.status !== ORDER_STATUS.ORDER_STATUS.CREATED) throw new ErrorHelper(Errors.ORDER_ERROR.message, Errors.ORDER_ERROR.statusCode)
             if (result === 'success') {
                 await OrderData.updateOrderStatusSuccess({ orderId, transaction: t });

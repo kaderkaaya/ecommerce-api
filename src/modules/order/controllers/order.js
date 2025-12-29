@@ -20,8 +20,6 @@ class OrderController {
             return ResponseHelper.success({ res, statusCode: 201, message: 'YES', data: { payment } });
 
         } catch (error) {
-            console.log('error', error);
-
             return ResponseHelper.sendError({ res, statusCode: error.statusCode || 500, message: error.message });
         }
     }
