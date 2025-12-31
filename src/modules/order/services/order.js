@@ -5,7 +5,7 @@ import sequelize from '../../../config/config.js';
 import ErrorHelper from '../../../utils/error-helper.js';
 import Errors from '../constant/error.js';
 import ORDER_STATUS from '../constant/const.js';
-
+import { orderQueue } from './queue.js';
 class OrderService {
     static async createOrder({ userId, cartId, address, guestId }) {
         return await sequelize.transaction(async (t) => {
@@ -46,7 +46,17 @@ class OrderService {
 
             }));
             await OrderData.addTotalAmount({ orderId: order.dataValues.id, totalAmount, transaction: t, });
-            await CartData.updateCartStatus({ cartId, transaction: t, })
+            await CartData.updateCartStatus({ cartId, transaction: t, });
+
+            t.afterCommit(async () => {
+                orderQueue.add(
+                    'order-timeout',
+                    { orderId: order.dataValues.id },
+                    {
+                        delay: 5 * 60 * 1000
+                    }
+                );
+            })
             return order;
         })
     }
@@ -88,5 +98,35 @@ class OrderService {
             }
         })
     }
+
+    static async cancelIfNotPaid({ orderId }) {
+        return await sequelize.transaction(async (t) => {
+            const order = await OrderData.getOrderByIdWithLock({
+                orderId,
+                transaction: t,
+                lock: t.LOCK.UPDATE
+            })
+            if (!order) {
+                return null;
+            }
+            if (order.status === ORDER_STATUS.ORDER_STATUS.PAID) return order;
+
+            if (order.status === ORDER_STATUS.ORDER_STATUS.CANCELED) return order;
+            if (order.status === ORDER_STATUS.ORDER_STATUS.CREATED) {
+                const orderItems = await OrderData.getOrderItems({ orderId, transaction: t, lock: t.LOCK.UPDATE });
+                for (const item of orderItems) {
+                    const [updatedRows] = await ProductData.updateProductStockForOrderFail({
+                        quantity: item.dataValues.quantity,
+                        productVariantId: item.dataValues.productVariantId,
+                        transaction: t,
+                    });
+                    if (updatedRows === 0) throw new ErrorHelper(Errors.STOCK_ERROR.message, Errors.STOCK_ERROR.statusCode);
+                }
+                await OrderData.updateOrderStatusFail({ orderId, transaction: t });
+            }
+            return order;
+        })
+    }
+
 }
 export default OrderService;
