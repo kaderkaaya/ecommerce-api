@@ -81,9 +81,9 @@ describe('create-product', () => {
         name: "shoes",
         slug: "shoe.com",
         isActive: true,
-        categoryId:1,
+        categoryId: 1,
         description: "this is a shoe",
-       
+
     };
 
     beforeEach(() => {
@@ -107,3 +107,238 @@ describe('create-product', () => {
     })
 });
 
+describe('update-product', () => {
+    const mockProduct = {
+        userId: 1,
+        productId: 1,
+        categoryId: 1,
+        name: "bag",
+    };
+
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
+    test('Should update product', async () => {
+        ProductModel.update.mockResolvedValue([1]);
+        ProductModel.findOne.mockResolvedValue(mockProduct);
+        CategoryModel.findOne.mockResolvedValue(mockProduct.categoryId);
+        const product = await ProductService.updateProduct(mockProduct);
+        expect(product).toEqual(mockProduct)
+        expect(ProductModel.update).toHaveBeenCalledTimes(1);
+        expect(CategoryModel.findOne).toHaveBeenCalledTimes(1);
+        expect(ProductModel.findOne).toHaveBeenCalledTimes(2);
+
+    });
+
+    test('Should throw error if update product fails', async () => {
+        ProductModel.update.mockRejectedValue(new Error('Db error'));
+        await expect(
+            ProductService.updateProduct({
+                userId: 1,
+                productId: 1,
+                categoryId: 1,
+                name: "bag",
+            })
+        ).rejects.toThrow('Db error')
+    })
+});
+
+describe('get-product', () => {
+    const mockProduct = {
+        userId: 1,
+        id: 1,
+        name: "shoes",
+        slug: "shoe.com",
+        isActive: true,
+        categoryId: 1,
+        description: "this is a shoe",
+    };
+
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
+    test('Should get product', async () => {
+        ProductModel.findOne.mockResolvedValue(mockProduct);
+        const product = await ProductService.getProduct(mockProduct);
+        expect(product).toEqual(mockProduct);
+        expect(ProductModel.findOne).toHaveBeenCalledTimes(1);
+
+    });
+
+    test('Should throw error if get product fails', async () => {
+        ProductModel.findOne.mockRejectedValue(new Error('Db error'));
+        await expect(
+            ProductService.getProduct(mockProduct)
+        ).rejects.toThrow('Db error')
+    })
+});
+
+describe('delete-product', () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
+    test('Should delete product', async () => {
+        const mockProduct = {
+            productId: 1,
+            userId: 1,
+        };
+        ProductModel.update.mockResolvedValue([1]);
+        ProductModel.findOne.mockResolvedValue(mockProduct);
+        const product = await ProductService.deleteProduct(mockProduct);
+        expect(product).toEqual(mockProduct);
+        expect(ProductModel.update).toHaveBeenCalledTimes(1);
+        expect(ProductModel.findOne).toHaveBeenCalledTimes(2);
+    });
+
+    test('Should throw error if delete product fails', async () => {
+        ProductModel.update.mockRejectedValue(new Error('Db error'));
+        await expect(
+            ProductService.deleteProduct({
+                productId: 1,
+                userId: 1,
+            })
+        ).rejects.toThrow('Db error')
+    })
+});
+//getProducts
+
+
+//PRODUCT-VARIANTS
+describe('add-product-variant', () => {
+    const mockProductVariant = {
+        id: 1,
+        productId: 1,
+        price: 500,
+        attributes: {
+            color: "black",
+            size: "M",
+            storage: "256GB"
+        },
+        variantStatus: 1,
+    };
+
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
+    test('Should add product variant', async () => {
+        ProductVariantModel.create.mockResolvedValue(mockProductVariant);
+        ProductModel.findOne.mockResolvedValue(mockProductVariant.productId);
+        const productVariant = await ProductService.addProductVariant(mockProductVariant);
+        expect(productVariant).toEqual(mockProductVariant)
+        expect(ProductVariantModel.create).toHaveBeenCalledTimes(1);
+        expect(ProductModel.findOne).toHaveBeenCalledTimes(1);
+    });
+
+    test('Should throw error if add product variant fails', async () => {
+        ProductVariantModel.create.mockRejectedValue(new Error('Db error'));
+        await expect(
+            ProductService.addProductVariant(mockProductVariant)
+        ).rejects.toThrow('Db error')
+    })
+});
+
+describe('update-product-variant', () => {
+    const mockProductVariant = {
+        userId: 1,
+        variantId: 1,
+        price: 700,
+    };
+
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
+    test('Should update product variant', async () => {
+        ProductVariantModel.update.mockResolvedValue([1]);
+        ProductVariantModel.findOne.mockResolvedValue(mockProductVariant);
+        const productVariant = await ProductService.updateProductVariant(mockProductVariant);
+        expect(productVariant).toEqual(mockProductVariant)
+        expect(ProductVariantModel.update).toHaveBeenCalledTimes(1);
+        expect(ProductVariantModel.findOne).toHaveBeenCalledTimes(2);
+    });
+
+    test('Should throw error if update product variant fails', async () => {
+        ProductVariantModel.update.mockRejectedValue(new Error('Db error'));
+        await expect(
+            ProductService.updateProductVariant({
+                userId: 1,
+                variantId: 1,
+                price: 700,
+            })
+        ).rejects.toThrow('Db error')
+    })
+});
+
+describe('update-product-variant-status', () => {
+    const mockProductVariant = {
+        userId: 1,
+        variantId: 1,
+        variantStatus: 0,
+    };
+
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
+    test('Should update product variant status ', async () => {
+        ProductVariantModel.update.mockResolvedValue([1]);
+        ProductVariantModel.findOne.mockResolvedValue(mockProductVariant);
+        const productVariant = await ProductService.updateProductVariantStatus(mockProductVariant);
+        expect(productVariant).toEqual(mockProductVariant)
+        expect(ProductVariantModel.update).toHaveBeenCalledTimes(1);
+        expect(ProductVariantModel.findOne).toHaveBeenCalledTimes(2);
+    });
+
+    test('Should throw error if product variant status fails', async () => {
+        ProductVariantModel.update.mockRejectedValue(new Error('Db error'));
+        await expect(
+            ProductService.updateProductVariantStatus({
+                userId: 1,
+                variantId: 1,
+                variantStatus: 0,
+            })
+        ).rejects.toThrow('Db error')
+    })
+});
+
+
+describe('get-product-variant', () => {
+     const mockProductVariant = {
+        id: 1,
+        productId: 1,
+        price: 500,
+        attributes: {
+            color: "black",
+            size: "M",
+            storage: "256GB"
+        },
+        variantStatus: 1,
+    };
+
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
+    test('Should get product variant ', async () => {
+        ProductVariantModel.findOne.mockResolvedValue(mockProductVariant);
+        const productVariant = await ProductService.getProductVariant(mockProductVariant);
+        expect(productVariant).toEqual(mockProductVariant);
+        expect(ProductVariantModel.findOne).toHaveBeenCalledTimes(1);
+
+    });
+
+    test('Should throw error if get product variant fails', async () => {
+        ProductVariantModel.findOne.mockRejectedValue(new Error('Db error'));
+        await expect(
+            ProductService.getProductVariant(mockProductVariant)
+        ).rejects.toThrow('Db error')
+    })
+});
+// getProductVariants
+
+//PRODUCT-STOCK
+//PRODUCT-IMAGE
