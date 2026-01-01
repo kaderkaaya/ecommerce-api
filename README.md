@@ -277,16 +277,6 @@ All relationships are defined in `models/associates.js`.
 
 ---
 
-## 🎯 Project Level
-
-This project is positioned at a:
-
-* **Mid-level Backend Developer** level
-* Demonstrates real-world product architecture thinking
-* Suitable for production adaptation
-
----
-
 ## 📌 Development Roadmap
 
 * Database transaction management
