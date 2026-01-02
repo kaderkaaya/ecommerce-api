@@ -105,7 +105,9 @@ class ProductService {
     }
 
     static async getProductStockByVariant({ productId }) {
-        return await ProductData.getProductStockByVariant({ productId });
+        const product = await ProductData.getProductStockByVariant({ productId });
+        if (!product) throw new ErrorHelper(Errors.PRODUCT_ERROR.message, Errors.PRODUCT_ERROR.statusCode);
+        return product
     }
 }
 

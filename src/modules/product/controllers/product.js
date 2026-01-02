@@ -222,6 +222,8 @@ class ProductController {
             const product = await ProductService.getProductStockByVariant({ productId });
             return ResponseHelper.success({ res, statusCode: 201, message: messages.PRODUCT_FETCH_SUCCESS, data: { product } });
         } catch (error) {
+            console.log('eror', error);
+
             return ResponseHelper.sendError({ res, statusCode: error.statusCode || 500, message: error.message });
 
         }

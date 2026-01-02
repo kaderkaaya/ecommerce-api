@@ -203,8 +203,6 @@ describe('delete-product', () => {
         ).rejects.toThrow('Db error')
     })
 });
-//getProducts
-
 
 //PRODUCT-VARIANTS
 describe('add-product-variant', () => {
@@ -307,7 +305,7 @@ describe('update-product-variant-status', () => {
 
 
 describe('get-product-variant', () => {
-     const mockProductVariant = {
+    const mockProductVariant = {
         id: 1,
         productId: 1,
         price: 500,
@@ -338,7 +336,129 @@ describe('get-product-variant', () => {
         ).rejects.toThrow('Db error')
     })
 });
-// getProductVariants
+//PRODUCT-IMAGE
+
+describe('add-product-image', () => {
+    const mockProductImage = {
+        id: 1,
+        productId: 1,
+        variantId: 1,
+        url: 'img.jpegkdswkd',
+        isPrimary: false,
+        order: 2
+    };
+
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
+    test('Should add product image', async () => {
+        ProductImageModel.create.mockResolvedValue(mockProductImage);
+        ProductModel.findOne.mockResolvedValue(mockProductImage.productId);
+        const productImage = await ProductService.addImage(mockProductImage);
+        expect(productImage).toEqual(mockProductImage)
+        expect(ProductImageModel.create).toHaveBeenCalledTimes(1);
+        expect(ProductModel.findOne).toHaveBeenCalledTimes(1);
+    });
+
+    test('Should throw error if add product image fails', async () => {
+        ProductImageModel.create.mockRejectedValue(new Error('Db error'));
+        await expect(
+            ProductService.addImage(mockProductImage)
+        ).rejects.toThrow('Db error')
+    })
+});
 
 //PRODUCT-STOCK
-//PRODUCT-IMAGE
+describe('add-product-stock', () => {
+    const mockProductStock = {
+        id: 1,
+        productVariantId: 1,
+        quantity: 500,
+        reserved: 0,
+        lowStockThreshold: 5,
+        status: 1
+    };
+
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
+    test('Should add product stock', async () => {
+        ProductStockModel.create.mockResolvedValue(mockProductStock);
+        ProductVariantModel.findOne.mockResolvedValue(mockProductStock.productVariantId);
+        const productStock = await ProductService.addProductStock(mockProductStock);
+        expect(productStock).toEqual(mockProductStock)
+        expect(ProductStockModel.create).toHaveBeenCalledTimes(1);
+        expect(ProductVariantModel.findOne).toHaveBeenCalledTimes(1);
+    });
+
+    test('Should throw error if add product stock fails', async () => {
+        ProductStockModel.create.mockRejectedValue(new Error('Db error'));
+        await expect(
+            ProductService.addProductStock(mockProductStock)
+        ).rejects.toThrow('Db error')
+    })
+});
+
+describe('update-product-stock', () => {
+    const mockProductStock = {
+        productStockId: 1,
+        quantity: 400,
+    };
+
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
+    test('Should update product stock', async () => {
+        ProductStockModel.update.mockResolvedValue([1]);
+        ProductStockModel.findOne.mockResolvedValue(mockProductStock);
+        const productStock = await ProductService.updateProductStock(mockProductStock);
+        expect(productStock).toEqual(mockProductStock)
+        expect(ProductStockModel.update).toHaveBeenCalledTimes(1);
+        expect(ProductStockModel.findOne).toHaveBeenCalledTimes(2);
+    });
+
+    test('Should throw error if update product stock fails', async () => {
+        ProductStockModel.update.mockRejectedValue(new Error('Db error'));
+        await expect(
+            ProductService.updateProductStock({
+                productStockId: 1,
+                quantity: 400
+            }
+            )
+        ).rejects.toThrow('Db error')
+    })
+});
+
+// describe('get-product-stock', () => {
+//     const mockProductStock = {
+//         id: 1,
+//         productId: 1,
+//         productVariantId: 1,
+//         quantity: 500,
+//         reserved: 0,
+//         lowStockThreshold: 5,
+//         status: 1
+//     };
+
+//     beforeEach(() => {
+//         jest.clearAllMocks();
+//     });
+
+//     test('Should get product stock ', async () => {
+//         ProductStockModel.findOne.mockResolvedValue(mockProductStock);
+//         const productStock = await ProductService.getProductStockByVariant({ productId: 1 });
+//         expect(productStock).toEqual(mockProductStock);
+//         expect(ProductStockModel.findOne).toHaveBeenCalledTimes(1);
+
+//     });
+
+//     test('Should throw error if get product stock fails', async () => {
+//         ProductStockModel.findOne.mockRejectedValue(new Error('Db error'));
+//         await expect(
+//             ProductService.getProductStockByVariant({ productId: 1 })
+//         ).rejects.toThrow('Db error')
+//     })
+// });
