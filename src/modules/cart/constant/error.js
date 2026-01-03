@@ -19,5 +19,9 @@ export default {
     QUANTITY_ERROR: {
         statusCode: 805,
         message: 'The amount cannot be less than zero.',
+    },
+    INSUFFICIENT_STOCK: {
+        statusCode: 806,
+        message: 'Insufficient stock',
     }
 }

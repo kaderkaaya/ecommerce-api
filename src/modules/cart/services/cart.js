@@ -58,9 +58,18 @@ class CartService {
             });
             //bu kisimdan emin degilim tekrar bakalim!!!!!!!!
             if (cartItem) {
-                cartItem.quantity += quantity;
-                return await cartItem.save({ transaction: t });
+                const newQuantity = cartItem.quantity + quantity;
+
+                if (productVariant.stock < newQuantity) {
+                    throw new ErrorHelper(Errors.INSUFFICIENT_STOCK.message, Errors.INSUFFICIENT_STOCK.statusCode);
+                }
+
+                cartItem.quantity = newQuantity;
+                await cartItem.save({ transaction: t });
+
+                return { success: true };
             }
+
             else {
                 await CartData.addCartItems({
                     cartId,

@@ -37,21 +37,21 @@ class OrderService {
                 });
 
                 const [updatedRows] = await ProductData.updateProductStockForOrder({
-                    quantity: item.dataValues.quantity,
-                    productVariantId: item.dataValues.productVariantId,
+                    quantity: item.quantity,
+                    productVariantId: item.productVariantId,
                     transaction: t,
                 });
 
                 if (updatedRows === 0) throw new ErrorHelper(Errors.STOCK_ERROR.message, Errors.STOCK_ERROR.statusCode);
 
             }));
-            await OrderData.addTotalAmount({ orderId: order.dataValues.id, totalAmount, transaction: t, });
+            await OrderData.addTotalAmount({ orderId: order.id, totalAmount, transaction: t, });
             await CartData.updateCartStatus({ cartId, transaction: t, });
 
             t.afterCommit(async () => {
                 orderQueue.add(
                     'order-timeout',
-                    { orderId: order.dataValues.id },
+                    { orderId: order.id },
                     {
                         delay: 5 * 60 * 1000
                     }
