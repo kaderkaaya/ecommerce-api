@@ -3,7 +3,7 @@ import express from "express";
 import PanelUserRouter from '../panel/routes/user.js';
 import PanelRoleRouter from '../panel/routes/role.js';
 import swaggerUi from 'swagger-ui-express';
-import swagger from "./config/swagger.js";
+import swagger from "./swagger/index.js";
 const PANEL_PORT = process.env.PANEL_PORT;
 import helmet from "helmet";
 import '../../models/panel-user/associates.js';
