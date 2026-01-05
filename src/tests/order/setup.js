@@ -10,7 +10,7 @@ beforeAll(async () => {
 });
 
 afterEach(async () => {
-     await sequelize.sync({ force: true });
+    await sequelize.sync({ force: true });
 });
 afterAll(async () => {
     await sequelize.close();

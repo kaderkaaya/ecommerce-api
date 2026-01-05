@@ -1,4 +1,5 @@
 import { Queue } from 'bullmq';
-
-export const orderQueue = new Queue('orderQueue', { connection: { host: 'localhost', port: 3003 } });
+//burda redis kurulu olması lazım
+//bunu baska bir projede yapacağım
+export const orderQueue = new Queue('orderQueue', { connection: { host: process.env.REDIS_HOST, port: process.env.REDIS_PORT } });
 

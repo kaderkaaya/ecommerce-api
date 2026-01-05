@@ -5,8 +5,12 @@ import dotenv from "dotenv";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const envFile =
+  process.env.NODE_ENV === "test"
+    ? ".env.test"
+    : ".env";
 dotenv.config({
-  path: path.resolve(__dirname, "../../.env"),
+  path: path.resolve(__dirname, `../../${envFile}`),
 });
 
 //burda env dosyası src dısında oldugu ıcın path ile yolunu belirttık

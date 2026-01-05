@@ -5,7 +5,7 @@ import sequelize from '../../../config/config.js';
 import ErrorHelper from '../../../utils/error-helper.js';
 import Errors from '../constant/error.js';
 import ORDER_STATUS from '../constant/const.js';
-import { orderQueue } from './queue.js';
+// import { orderQueue } from './queue.js';
 class OrderService {
     static async createOrder({ userId, cartId, address, guestId }) {
         return await sequelize.transaction(async (t) => {
@@ -48,15 +48,15 @@ class OrderService {
             await OrderData.addTotalAmount({ orderId: order.id, totalAmount, transaction: t, });
             await CartData.updateCartStatus({ cartId, transaction: t, });
 
-            t.afterCommit(async () => {
-                orderQueue.add(
-                    'order-timeout',
-                    { orderId: order.id },
-                    {
-                        delay: 5 * 60 * 1000
-                    }
-                );
-            })
+            // t.afterCommit(async () => {
+            //     orderQueue.add(
+            //         'order-timeout',
+            //         { orderId: order.id },
+            //         {
+            //             delay: 5 * 60 * 1000
+            //         }
+            //     );
+            // })
             return order;
         })
     }
