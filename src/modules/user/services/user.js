@@ -32,7 +32,7 @@ class UserService {
    static async login({ phoneNumber, password }) {
       const user = await UserData.findByPhoneNumber({ phoneNumber });
       if (!user) {
-         throw new ErrorHelper(Errors.USER_NOT_FOUND);
+         throw new ErrorHelper(Errors.USER_NOT_FOUND.message, Errors.USER_NOT_FOUND.statusCode);
       }
       const veriftyPasssword = await HashHelper.verifyPassword({ password, hashedPassword: user.password });
       if (!veriftyPasssword) {
@@ -62,7 +62,7 @@ class UserService {
    static async getUser({ userId }) {
       const user = await UserData.findById({ id: userId });
       if (!user) {
-         throw new ErrorHelper(Errors.USER_NOT_FOUND);
+         throw new ErrorHelper(Errors.USER_NOT_FOUND.message, Errors.USER_NOT_FOUND.statusCode);
       }
       return user;
    }
@@ -77,7 +77,7 @@ class UserService {
    static async updatePassword({ userId, oldPassword, newPassword }) {
       const uss = await UserData.findById({ id: userId });
       if (!uss) {
-         throw new ErrorHelper(Errors.USER_NOT_FOUND);
+         throw new ErrorHelper(Errors.USER_NOT_FOUND.message, Errors.USER_NOT_FOUND.statusCode);
       }
       const veriftyPasssword = HashHelper.verifyPassword({ password: oldPassword, hashedPassword: uss.password });
       if (!veriftyPasssword) {
@@ -91,7 +91,7 @@ class UserService {
    static async deleteAccount({ userId }) {
       const uss = await UserData.findById({ id: userId });
       if (!uss) {
-         throw new ErrorHelper(Errors.USER_NOT_FOUND);
+         throw new ErrorHelper(Errors.USER_NOT_FOUND.message, Errors.USER_NOT_FOUND.statusCode);
       }
       const user = await UserData.deleteAccount({ userId });
       return user;
